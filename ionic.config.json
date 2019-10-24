@@ -1,5 +1,7 @@
 {
   "name": "Purge",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
