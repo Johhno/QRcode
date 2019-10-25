@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 
 import { IonicModule } from '@ionic/angular';
 
 import { SigninPage } from './signin.page';
+import { Dialogs } from '@ionic-native/dialogs/ngx';
 
 const routes: Routes = [
   {
@@ -20,6 +22,10 @@ const routes: Routes = [
     ReactiveFormsModule,
     IonicModule,
     RouterModule.forChild(routes)
+  ],
+  providers:[
+    QRScanner,
+    Dialogs
   ],
   declarations: [SigninPage]
 })

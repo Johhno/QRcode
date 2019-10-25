@@ -7,12 +7,14 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form [formGroup]="signinForm" (ngSubmit)="onSubmit(signinForm.value)">
   
+  <form [formGroup]="signinForm" (ngSubmit)="onSubmit(signinForm.value)">
+    <!-- Label Nom -->
     <ion-item>
       <ion-label floating color="primary">Nom</ion-label>
-      <ion-input type="text" formControlName="nom"></ion-input>
+      <ion-input type="text" formControlName="nom" [(ngModel)]="nom_client"></ion-input>
     </ion-item>
+    <!-- Mesage d'erreurs -->
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.nom">
         <div class="error-message" *ngIf="signinForm.get('nom').hasError(validation.type) && (signinForm.get('nom').dirty || signinForm.get('nom').touched)">
@@ -23,7 +25,7 @@
 
     <ion-item>
       <ion-label floating color="primary">Prenom</ion-label>
-      <ion-input type="text" formControlName="prenom"></ion-input>
+      <ion-input type="text" formControlName="prenom" [(ngModel)]="prenom_client"></ion-input>
     </ion-item>
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.prenom">
@@ -34,6 +36,9 @@
     </div>
 
     <ion-button (click)="signin()" [disabled]="!signinForm.valid" shape="round" size="default" color="primary" expand="block">Submit</ion-button>
-    
+    <ion-button (click)="StartScanning()" expand="full" color="danger" shape="round" size="default" >dd</ion-button>
   </form>
+
+
+  
 </ion-content>
