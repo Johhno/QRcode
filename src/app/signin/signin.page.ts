@@ -36,14 +36,16 @@ export class SigninPage implements OnInit {
         nom: new FormControl('', Validators.required),
         prenom: new FormControl('', Validators.required)   
       });
-   }
+  }
 
-   StartScanning(){
-     this.qr.prepare().then((status:QRScannerStatus)=>{
-       if(status.authorized)
-       {
-         //Camera autorisé
-          this.qr.show();
+
+  // Fonctions
+  StartScanning(){
+    this.qr.prepare().then((status:QRScannerStatus)=>{
+      if(status.authorized)
+      {
+        //Camera autorisé
+        this.qr.show();
           document.getElementsByTagName("body")[0].style.opacity = "0";
           this.qrScan = this.qr.scan().subscribe((textFound)=>{
             document.getElementsByTagName("body")[0].style.opacity = "1";
@@ -52,19 +54,19 @@ export class SigninPage implements OnInit {
           },(err)=>{
             this.dialog.alert(JSON.stringify(err))
           })
-       }
+      }
        else if(status.denied)
-       {
+      {
 
-       }
+      }
        else{
         //Camera refusé mais peut demander l'accès plus tard
-       }
-     })
-   }
+      }
+    })
+  }
 
    // Message d'errerus
-   validation_messages = {
+  validation_messages = {
     'nom': [
       { type: 'required', message: 'Nom requis.' }
     ],
