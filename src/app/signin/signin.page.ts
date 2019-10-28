@@ -45,6 +45,7 @@ export class SigninPage implements OnInit {
       if(status.authorized)
       {
         //Camera autorisé
+        this.qr.scan();
         this.qr.show();
           document.getElementsByTagName("body")[0].style.opacity = "0";
           this.qrScan = this.qr.scan().subscribe((textFound)=>{
@@ -57,6 +58,7 @@ export class SigninPage implements OnInit {
       }
        else if(status.denied)
       {
+        console.log("Accès Caméra refusé");
 
       }
        else{
