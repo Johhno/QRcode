@@ -8,38 +8,58 @@
 
 <ion-content class="ion-padding">
   
-  <form [formGroup]="signinForm" (ngSubmit)="onSubmit(signinForm.value)">
-    <!-- Label Nom -->
-    <ion-item>
-      <ion-label floating color="primary">Nom</ion-label>
-      <ion-input type="text" formControlName="nom" [(ngModel)]="nom_client"></ion-input>
+  <form [formGroup]="signinForm">
+
+    <ion-item>                                               <!-- Label ID Capteur -->
+      <ion-label floating color="primary">ID Capteur</ion-label>
+      <ion-input type="text" formControlName="id_capteur" [(ngModel)]="id_capteur"></ion-input>
     </ion-item>
-    <!-- Mesage d'erreurs -->
-    <div class="validation-errors">
-      <ng-container *ngFor="let validation of validation_messages.nom">
-        <div class="error-message" *ngIf="signinForm.get('nom').hasError(validation.type) && (signinForm.get('nom').dirty || signinForm.get('nom').touched)">
+
+    <div class="validation-errors">                           <!-- Message d'erreurs -->
+      <ng-container *ngFor="let validation of validation_messages.id_capteur">
+        <div class="error-message" *ngIf="signinForm.get('id_capteur').hasError(validation.type) && (signinForm.get('id_capteur').dirty || signinForm.get('id_capteur').touched)">
           {{ validation.message }}
         </div>
       </ng-container>
     </div>
-    <!-- Label Prenom -->
+
     <ion-item>
-      <ion-label floating color="primary">Prenom</ion-label>
-      <ion-input type="text" formControlName="prenom" [(ngModel)]="prenom_client"></ion-input>
+      <ion-label>N° Emplacement</ion-label>                 <!-- Label Emplacement -->
+      <ion-select placeholder="Select One" formControlName="num_emplacement" [(ngModel)]="num_emplacement">
+        <ion-select-option value="1">1</ion-select-option>
+        <ion-select-option value="2">2</ion-select-option>
+      </ion-select>
     </ion-item>
-    <!-- Mesage d'erreurs -->
-    <div class="validation-errors">
-      <ng-container *ngFor="let validation of validation_messages.prenom">
-        <div class="error-message" *ngIf="signinForm.get('prenom').hasError(validation.type) && (signinForm.get('prenom').dirty || signinForm.get('prenom').touched)">
+    
+    <div class="validation-errors">                          <!-- Message d'erreurs -->
+      <ng-container *ngFor="let validation of validation_messages.num_emplacement">
+        <div class="error-message" *ngIf="signinForm.get('num_emplacement').hasError(validation.type) && (signinForm.get('num_emplacement').dirty || signinForm.get('num_emplacement').touched)">
           {{ validation.message }}
         </div>
       </ng-container>
     </div>
+
     <!-- Boutons -->
     <ion-button (click)="signin()" [disabled]="!signinForm.valid" shape="round" size="default" color="primary" expand="block">Submit</ion-button>
     <ion-button (click)="StartScanning()" expand="full" color="danger" shape="round" size="default" >QRCode</ion-button>
+  
+    
+    <ion-button (click)="addPhoto('library')" color="tertiary" expand="block">
+      <ion-icon name="image" slot="start"></ion-icon>
+      Ouvrir la bibliothèque
+    </ion-button>
+
+    <ion-button (click)="addPhoto('camera')" color="secondary" expand="block">
+      <ion-icon name="camera" slot="start"></ion-icon>
+      Prendre une photo
+    </ion-button>
+
+    <div class="flex">
+      <div class="img-box">
+        <img [src]="image">
+      </div>
+    </div>
+
   </form>
 
-
-  
 </ion-content>

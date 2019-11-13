@@ -4,6 +4,7 @@ import { NavController, Platform } from '@ionic/angular';
 import { HomePage } from '../home/home.page';
 import {Dialogs} from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Component({
   selector: 'app-signin',
@@ -13,19 +14,20 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 export class SigninPage implements OnInit {
   // Variables
   qrScan:any;
-  nom_client : string = "";
-  prenom_client : string = "";
+  id_capteur : string = "";
+  num_emplacement : string = "";
   signinForm: FormGroup;
-
+  image: string;
   // Constructeur
   constructor(
     public navCtrl: NavController,
     public formBuilder: FormBuilder,
     public qr: QRScanner,
     public dialog:Dialogs,
-    public platform:Platform
+    public platform:Platform,
+    private camera:Camera
     ) {
-      //Désactive scanner quand le button Retour est pressé
+      //Désactive scanner quand le button "Retour" est pressé
       this.platform.backButton.subscribeWithPriority(0,()=>{
         document.getElementsByTagName("body")[0].style.opacity = "1";
         this.qrScan.unsubsribe();
@@ -33,8 +35,8 @@ export class SigninPage implements OnInit {
 
       // Valide Formulaire
       this.signinForm = this.formBuilder.group({
-        nom: new FormControl('', Validators.required),
-        prenom: new FormControl('', Validators.required)   
+        id_capteur: new FormControl('', Validators.required),
+        num_emplacement: new FormControl('', Validators.required)   
       });
   }
 
@@ -69,11 +71,11 @@ export class SigninPage implements OnInit {
 
    // Message d'errerus
   validation_messages = {
-    'nom': [
-      { type: 'required', message: 'Nom requis.' }
+    'id_capteur': [
+      { type: 'required', message: 'ID Capteur requis.' }
     ],
-    'prenom': [
-      { type: 'required', message: 'Prénom requis.' }
+    'num_emplacement': [
+      { type: 'required', message: 'Emplacement requis.' }
     ],
   };
 
@@ -82,15 +84,57 @@ export class SigninPage implements OnInit {
     //console.log('Nom', this.signinForm.value.nom);
     //console.log('Prenom', this.signinForm.value.prenom);
   }
-   ngOnInit() {
 
+   ngOnInit() {
   /*   this.http.get('http://localhost:3000/posts').map(res => res.json()).subscribe(data => {
       console.log(data);
     }); */
   }
 
   signin(){
-    console.log('Nom: ', this.signinForm.value.nom);
-    console.log('Prenom: ', this.signinForm.value.prenom);
+    console.log('Id Capteur: ', this.signinForm.value.id_capteur);
+    console.log('Numéro Emplacement: ', this.signinForm.value.num_emplacement);
   }
+
+  // Choix Bibliothèque - Capture
+  async addPhoto(source: string) {
+    if (source === 'library'){
+      console.log('library');
+      const libraryImage = await this.openLibrary();
+      this.image = 'data:image/jpg;base64,' + libraryImage;
+    }
+    else{
+      console.log('camera');
+      const cameraImage = await this.openCamera();
+      this.image = 'data:image/jpg;base64,' + cameraImage;
+    }
+ }
+
+  // Ouvre THE Bibliothèque
+  async openLibrary() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    };
+    return await this.camera.getPicture(options);
+  }
+
+  async openCamera() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      sourceType: this.camera.PictureSourceType.CAMERA
+    };
+    return await this.camera.getPicture(options);
+  }
+
 }
