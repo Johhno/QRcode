@@ -40,7 +40,6 @@ export class SigninPage implements OnInit {
       });
   }
 
-
   // Fonctions
   StartScanning(){
     this.qr.prepare().then((status:QRScannerStatus)=>{
@@ -61,7 +60,6 @@ export class SigninPage implements OnInit {
        else if(status.denied)
       {
         console.log("Accès Caméra refusé");
-
       }
        else{
         //Camera refusé mais peut demander l'accès plus tard

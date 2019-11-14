@@ -17,7 +17,8 @@
 
     <div class="validation-errors">                           <!-- Message d'erreurs -->
       <ng-container *ngFor="let validation of validation_messages.id_capteur">
-        <div class="error-message" *ngIf="signinForm.get('id_capteur').hasError(validation.type) && (signinForm.get('id_capteur').dirty || signinForm.get('id_capteur').touched)">
+        <div class="error-message" *ngIf="signinForm.get('id_capteur').hasError(validation.type) 
+        && (signinForm.get('id_capteur').dirty || signinForm.get('id_capteur').touched)">
           {{ validation.message }}
         </div>
       </ng-container>
@@ -33,16 +34,21 @@
     
     <div class="validation-errors">                          <!-- Message d'erreurs -->
       <ng-container *ngFor="let validation of validation_messages.num_emplacement">
-        <div class="error-message" *ngIf="signinForm.get('num_emplacement').hasError(validation.type) && (signinForm.get('num_emplacement').dirty || signinForm.get('num_emplacement').touched)">
+        <div class="error-message" *ngIf="signinForm.get('num_emplacement').hasError(validation.type) 
+        && (signinForm.get('num_emplacement').dirty || signinForm.get('num_emplacement').touched)">
           {{ validation.message }}
         </div>
       </ng-container>
     </div>
 
     <!-- Boutons -->
-    <ion-button (click)="signin()" [disabled]="!signinForm.valid" shape="round" size="default" color="primary" expand="block">Submit</ion-button>
-    <ion-button (click)="StartScanning()" expand="full" color="danger" shape="round" size="default" >QRCode</ion-button>
-  
+    <ion-button (click)="signin()" [disabled]="!signinForm.valid" shape="round" size="default" color="primary" expand="block">
+      Submit
+    </ion-button>
+    
+    <ion-button (click)="StartScanning()" expand="full" color="danger" shape="round" size="default" >
+      QRCode
+    </ion-button>
     
     <ion-button (click)="addPhoto('library')" color="tertiary" expand="block">
       <ion-icon name="image" slot="start"></ion-icon>
