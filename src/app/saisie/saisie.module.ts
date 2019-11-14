@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 import { IonicModule } from '@ionic/angular';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
-import { SigninPage } from './signin.page';
-
+import { SaisiePage } from './saisie.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: SigninPage
+    component: SaisiePage
   }
 ];
 
@@ -23,8 +23,10 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   providers:[
+    QRScanner,
+    Camera,
     Dialogs
   ],
-  declarations: [SigninPage]
+  declarations: [SaisiePage]
 })
-export class SigninPageModule {}
+export class SaisiePageModule {}
