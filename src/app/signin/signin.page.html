@@ -9,5 +9,45 @@
 <ion-content class="ion-padding">
   
   
+  <form [formGroup]="signinForm">
+
+    <ion-item>                                                <!-- Label ID Capteur -->
+      <ion-label floating color="primary">Login</ion-label>
+      <ion-input type="text" formControlName="login" [(ngModel)]="login"></ion-input>
+    </ion-item>
+
+    <div class="validation-errors">                           <!-- Message d'erreurs -->
+      <ng-container *ngFor="let validation of validation_messages.login">
+        <div class="error-message" *ngIf="signinForm.get('login').hasError(validation.type) 
+        && (signinForm.get('login').dirty || signinForm.get('login').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-item>                                                <!-- Label ID Capteur -->
+      <ion-label floating color="primary">Password</ion-label>
+      <ion-input type="text" formControlName="password" [(ngModel)]="password"></ion-input>
+    </ion-item>
+
+    
+    <div class="validation-errors">                          <!-- Message d'erreurs -->
+      <ng-container *ngFor="let validation of validation_messages.password">
+        <div class="error-message" *ngIf="signinForm.get('password').hasError(validation.type) 
+        && (signinForm.get('password').dirty || signinForm.get('password').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Bouton -->
+    <ion-button (click)="signin()" [disabled]="!signinForm.valid" shape="round" size="default" color="primary" expand="block">
+      Submit
+    </ion-button>
+    
+
+
+  </form>
+
 
 </ion-content>

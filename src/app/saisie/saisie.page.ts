@@ -16,7 +16,7 @@ export class SaisiePage implements OnInit {
   qrScan:any;
   id_capteur : string = "";
   num_emplacement : string = "";
-  signinForm: FormGroup;
+  saisieForm: FormGroup;
   image: string;
   // Constructeur
   constructor(
@@ -34,7 +34,7 @@ export class SaisiePage implements OnInit {
       })
 
       // Valide Formulaire
-      this.signinForm = this.formBuilder.group({
+      this.saisieForm = this.formBuilder.group({
         id_capteur: new FormControl('', Validators.required),
         num_emplacement: new FormControl('', Validators.required)   
       });
@@ -90,8 +90,8 @@ export class SaisiePage implements OnInit {
   }
 
   signin(){
-    console.log('Id Capteur: ', this.signinForm.value.id_capteur);
-    console.log('Numéro Emplacement: ', this.signinForm.value.num_emplacement);
+    console.log('Id Capteur: ', this.saisieForm.value.id_capteur);
+    console.log('Numéro Emplacement: ', this.saisieForm.value.num_emplacement);
   }
 
   // Choix Bibliothèque - Capture

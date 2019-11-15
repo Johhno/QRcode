@@ -6,7 +6,7 @@
 
 <ion-content class="ion-padding">
   
-  <form [formGroup]="signinForm">
+  <form [formGroup]="saisieForm">
 
     <ion-item>                                                <!-- Label ID Capteur -->
       <ion-label floating color="primary">ID Capteur</ion-label>
@@ -15,8 +15,8 @@
 
     <div class="validation-errors">                           <!-- Message d'erreurs -->
       <ng-container *ngFor="let validation of validation_messages.id_capteur">
-        <div class="error-message" *ngIf="signinForm.get('id_capteur').hasError(validation.type) 
-        && (signinForm.get('id_capteur').dirty || signinForm.get('id_capteur').touched)">
+        <div class="error-message" *ngIf="saisieForm.get('id_capteur').hasError(validation.type) 
+        && (saisieForm.get('id_capteur').dirty || saisieForm.get('id_capteur').touched)">
           {{ validation.message }}
         </div>
       </ng-container>
@@ -32,15 +32,15 @@
     
     <div class="validation-errors">                          <!-- Message d'erreurs -->
       <ng-container *ngFor="let validation of validation_messages.num_emplacement">
-        <div class="error-message" *ngIf="signinForm.get('num_emplacement').hasError(validation.type) 
-        && (signinForm.get('num_emplacement').dirty || signinForm.get('num_emplacement').touched)">
+        <div class="error-message" *ngIf="saisieForm.get('num_emplacement').hasError(validation.type) 
+        && (saisieForm.get('num_emplacement').dirty || saisieForm.get('num_emplacement').touched)">
           {{ validation.message }}
         </div>
       </ng-container>
     </div>
 
     <!-- Boutons -->
-    <ion-button (click)="signin()" [disabled]="!signinForm.valid" shape="round" size="default" color="primary" expand="block">
+    <ion-button (click)="signin()" [disabled]="!saisieForm.valid" shape="round" size="default" color="primary" expand="block">
       Submit
     </ion-button>
     
