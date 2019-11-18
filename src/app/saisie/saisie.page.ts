@@ -35,8 +35,13 @@ export class SaisiePage implements OnInit {
 
       // Valide Formulaire
       this.saisieForm = this.formBuilder.group({
-        id_capteur: new FormControl('', Validators.required),
-        num_emplacement: new FormControl('', Validators.required)   
+        id_capteur: new FormControl('', Validators.compose([
+          //Validators.maxLength(12),
+          //Validators.minLength(5),
+          Validators.pattern('^(?=.*[a-zA-Z])+[a-zA-Z0-9]$'),
+          //Validators.required
+        ])) , 
+        num_emplacement: new FormControl('', Validators.required) 
       });
   }
 
@@ -70,7 +75,9 @@ export class SaisiePage implements OnInit {
    // Message d'errerus
   validation_messages = {
     'id_capteur': [
-      { type: 'required', message: 'ID Capteur requis.' }
+      //{ type: 'maxlength', message: 'ID Capteur pas plus de 1 caractère.' },
+      //{ type: 'required', message: 'ID Capteur requis.' },
+      { type: 'pattern', message: 'ID Capteur doit être alphnumériques.' }
     ],
     'num_emplacement': [
       { type: 'required', message: 'Emplacement requis.' }

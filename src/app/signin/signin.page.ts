@@ -3,14 +3,16 @@ import { FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
 import { NavController, Platform } from '@ionic/angular';
 import { HomePage } from '../home/home.page';
 import {Dialogs} from '@ionic-native/dialogs/ngx';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.page.html',
   styleUrls: ['./signin.page.scss'],
 })
+
 export class SigninPage implements OnInit {
   // Variables
+ 
   login : string = "";
   password : string = "";
   signinForm: FormGroup;
@@ -20,8 +22,10 @@ export class SigninPage implements OnInit {
     public formBuilder: FormBuilder,
     public dialog:Dialogs,
     public platform:Platform,
-    
+    private router: Router
     ) {
+      
+      
       // Valide Formulaire
       this.signinForm = this.formBuilder.group({
         login: new FormControl('', Validators.required),
@@ -49,9 +53,10 @@ export class SigninPage implements OnInit {
       console.log(data);
     }); */
   }
-
-  signin(){
+ 
+  signin(values){
     console.log('Login: ', this.signinForm.value.login);
     console.log('Password: ', this.signinForm.value.password);
+    this.router.navigate(["/saisie"]);
   }
 }
