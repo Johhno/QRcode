@@ -5,6 +5,7 @@ import { HomePage } from '../home/home.page';
 import {Dialogs} from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-saisie',
@@ -12,20 +13,20 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
   styleUrls: ['./saisie.page.scss'],
 })
 export class SaisiePage implements OnInit {
-  // Variables
   qrScan:any;
   id_capteur : string = "";
   num_emplacement : string = "";
   saisieForm: FormGroup;
   image: string;
-  // Constructeur
+
   constructor(
-    public navCtrl: NavController,
-    public formBuilder: FormBuilder,
-    public qr: QRScanner,
+    public navCtrl:NavController,
+    public formBuilder:FormBuilder,
+    public qr:QRScanner,
     public dialog:Dialogs,
     public platform:Platform,
-    private camera:Camera
+    private camera:Camera,
+    private router:Router
     ) {
       //Désactive scanner quand le button "Retour" est pressé
       this.platform.backButton.subscribeWithPriority(0,()=>{
@@ -85,10 +86,6 @@ export class SaisiePage implements OnInit {
   };
 
   // Fonctions
-  onSubmit(values){
-    //console.log('Nom', this.signinForm.value.nom);
-    //console.log('Prenom', this.signinForm.value.prenom);
-  }
 
    ngOnInit() {
   /*   this.http.get('http://localhost:3000/posts').map(res => res.json()).subscribe(data => {
@@ -96,9 +93,10 @@ export class SaisiePage implements OnInit {
     }); */
   }
 
-  signin(){
+  saisie(values){
     console.log('Id Capteur: ', this.saisieForm.value.id_capteur);
     console.log('Numéro Emplacement: ', this.saisieForm.value.num_emplacement);
+    this.router.navigate(["/home"]);
   }
 
   // Choix Bibliothèque - Capture

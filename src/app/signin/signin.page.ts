@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
-import { NavController, Platform } from '@ionic/angular';
-import { HomePage } from '../home/home.page';
+import { Platform } from '@ionic/angular';
 import {Dialogs} from '@ionic-native/dialogs/ngx';
 import { Router } from '@angular/router';
 @Component({
@@ -11,20 +10,16 @@ import { Router } from '@angular/router';
 })
 
 export class SigninPage implements OnInit {
-  // Variables
- 
   login : string = "";
   password : string = "";
   signinForm: FormGroup;
-  // Constructeur
+
   constructor(
-    public navCtrl: NavController,
-    public formBuilder: FormBuilder,
+    public formBuilder:FormBuilder,
     public dialog:Dialogs,
     public platform:Platform,
-    private router: Router
+    private router:Router
     ) {
-      
       
       // Valide Formulaire
       this.signinForm = this.formBuilder.group({
@@ -32,8 +27,6 @@ export class SigninPage implements OnInit {
         password: new FormControl('', Validators.required)   
       });
   }
-
-  // Fonctions
 
    // Message d'errerus
   validation_messages = {
@@ -46,8 +39,6 @@ export class SigninPage implements OnInit {
   };
 
   // Fonctions
-
-
    ngOnInit() {
   /*   this.http.get('http://localhost:3000/posts').map(res => res.json()).subscribe(data => {
       console.log(data);
