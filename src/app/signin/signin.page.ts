@@ -28,7 +28,7 @@ export class SigninPage implements OnInit {
       });
   }
 
-   // Message d'errerus
+   // Message d'erreurs
   validation_messages = {
     'login': [
       { type: 'required', message: 'Login requis.' }
@@ -39,12 +39,9 @@ export class SigninPage implements OnInit {
   };
 
   // Fonctions
-   ngOnInit() {
-  /*   this.http.get('http://localhost:3000/posts').map(res => res.json()).subscribe(data => {
-      console.log(data);
-    }); */
+  ngOnInit() {
+
   }
- 
   signin(values){
     console.log('Login: ', this.signinForm.value.login);
     console.log('Password: ', this.signinForm.value.password);

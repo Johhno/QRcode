@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
 import { NavController, Platform } from '@ionic/angular';
 import { HomePage } from '../home/home.page';
-import {Dialogs} from '@ionic-native/dialogs/ngx';
+import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Router } from '@angular/router';
@@ -47,21 +47,21 @@ export class SaisiePage implements OnInit {
   }
 
   // Fonctions
-  StartScanning(){
+  startScanning(){
     this.qr.prepare().then((status:QRScannerStatus)=>{
       if(status.authorized)
       {
-        //Camera autorisé
+        //Autorisé
         this.qr.scan();
-        this.qr.show();
-          document.getElementsByTagName("body")[0].style.opacity = "0";
-          this.qrScan = this.qr.scan().subscribe((textFound)=>{
-            document.getElementsByTagName("body")[0].style.opacity = "1";
-            this.qrScan.unsubsribe();                                                       //
-            this.dialog.alert(textFound);
-          },(err)=>{
-            this.dialog.alert(JSON.stringify(err))
-          })
+        this.qr.show( );
+        document.getElementsByTagName("body")[0].style.opacity = "0";
+        this.qrScan = this.qr.scan().subscribe((textFound)=>{
+          document.getElementsByTagName("body")[0].style.opacity = "1";
+          this.qrScan.unsubsribe();                                                       //
+          this.dialog.alert(textFound);
+        },(err)=>{
+          this.dialog.alert(JSON.stringify(err))
+        })
       }
        else if(status.denied)
       {
@@ -73,7 +73,7 @@ export class SaisiePage implements OnInit {
     })
   }
 
-   // Message d'errerus
+   // Message d'erreurs
   validation_messages = {
     'id_capteur': [
       //{ type: 'maxlength', message: 'ID Capteur pas plus de 1 caractère.' },
@@ -86,11 +86,7 @@ export class SaisiePage implements OnInit {
   };
 
   // Fonctions
-
-   ngOnInit() {
-  /*   this.http.get('http://localhost:3000/posts').map(res => res.json()).subscribe(data => {
-      console.log(data);
-    }); */
+  ngOnInit() {
   }
 
   saisie(values){
