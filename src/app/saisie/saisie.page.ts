@@ -32,7 +32,7 @@ export class SaisiePage implements OnInit {
       this.platform.backButton.subscribeWithPriority(0,()=>{
         document.getElementsByTagName("body")[0].style.opacity = "1";
         this.qrScan.unsubsribe();
-      })
+      });
 
       // Valide Formulaire
       this.saisieForm = this.formBuilder.group({
@@ -46,6 +46,7 @@ export class SaisiePage implements OnInit {
       });
   }
 
+ 
   // Fonctions
   startScanning(){
     this.qr.prepare().then((status:QRScannerStatus)=>{
@@ -72,6 +73,10 @@ export class SaisiePage implements OnInit {
       }
     })
   }
+
+ 
+
+
 
    // Message d'erreurs
   validation_messages = {
