@@ -7,7 +7,6 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Router } from '@angular/router';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
-
 @Component({
   selector: 'app-saisie',
   templateUrl: './saisie.page.html',
@@ -46,35 +45,40 @@ export class SaisiePage implements OnInit {
         num_emplacement: new FormControl('', Validators.required) 
       });
   }
-
- /*
+ 
   // Fonctions
-  startScanning(){
-    this.qr.prepare().then((status:QRScannerStatus)=>{
-      if(status.authorized)
-      {
-        //Autorisé
-        this.qr.scan();
-        this.qr.show( );
-        document.getElementsByTagName("body")[0].style.opacity = "0";
-        this.qrScan = this.qr.scan().subscribe((textFound)=>{
-          document.getElementsByTagName("body")[0].style.opacity = "1";
-          this.qrScan.unsubsribe();                                                       //
-          this.dialog.alert(textFound);
-        },(err)=>{
-          this.dialog.alert(JSON.stringify(err))
-        })
-      }
-       else if(status.denied)
-      {
-        console.log("Accès Caméra refusé");
-      }
-       else{
-        //Camera refusé mais peut demander l'accès plus tard
-      }
-    })
-  }
-*/
+  // startScanning(){
+  //   this.qr.prepare().then((status:QRScannerStatus)=>{
+  //     if(status.authorized)
+  //     {/*
+  //        let callback = function(err, contents){
+  //         if(err){
+  //           console.error(err._message);
+  //         }
+  //         alert('The QR Code contains: ' + contents);
+  //       };*/
+  //       //Autorisé
+  //       this.qr.scan(/*callback*/);
+  //       this.qr.show( );
+  //       document.getElementsByTagName("body")[0].style.opacity = "0";
+  //       this.qrScan = this.qr.scan().subscribe((textFound)=>{
+  //         document.getElementsByTagName("body")[0].style.opacity = "1";
+  //         this.qrScan.unsubsribe();                                                       //
+  //         this.dialog.alert(textFound);
+  //       },(err)=>{
+  //         this.dialog.alert(JSON.stringify(err))
+  //       })
+  //     }
+  //      else if(status.denied)
+  //     {
+  //       console.log("Accès Caméra refusé");
+  //     }
+  //      else{
+  //       //Camera refusé mais peut demander l'accès plus tard
+  //     }
+  //   })
+  // }
+
   startScanning(){
     this.barcode.scan().then((barcodeData)=>{
       alert(barcodeData.text);
