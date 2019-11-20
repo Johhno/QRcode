@@ -6,6 +6,7 @@ import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Router } from '@angular/router';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 @Component({
   selector: 'app-saisie',
@@ -26,7 +27,7 @@ export class SaisiePage implements OnInit {
     public dialog:Dialogs,
     public platform:Platform,
     private camera:Camera,
-    private router:Router
+    private router:Router,public barcode: BarcodeScanner
     ) {
       //Désactive scanner quand le button "Retour" est pressé
       this.platform.backButton.subscribeWithPriority(0,()=>{
@@ -46,7 +47,7 @@ export class SaisiePage implements OnInit {
       });
   }
 
- 
+ /*
   // Fonctions
   startScanning(){
     this.qr.prepare().then((status:QRScannerStatus)=>{
@@ -73,8 +74,14 @@ export class SaisiePage implements OnInit {
       }
     })
   }
-
- 
+*/
+  startScanning(){
+    this.barcode.scan().then((barcodeData)=>{
+      alert(barcodeData.text);
+    },(err)=>{
+      alert(JSON.stringify(err));
+    })
+  }
 
 
 
