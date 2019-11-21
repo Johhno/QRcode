@@ -6,7 +6,7 @@ import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Router } from '@angular/router';
-import { File } from '@ionic-native/file';
+//import { File } from '@ionic-native/file';
 
 @Component({
   selector: 'app-saisie',
@@ -23,7 +23,7 @@ export class SaisiePage implements OnInit {
   constructor(
     private camera:Camera,
     private router:Router,
-    private file:File,
+    //private file:File,
     public navCtrl:NavController,
     public formBuilder:FormBuilder,
     public qr:QRScanner,
