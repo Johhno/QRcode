@@ -6,7 +6,7 @@ import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Router } from '@angular/router';
-
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 @Component({
   selector: 'app-saisie',
   templateUrl: './saisie.page.html',
@@ -26,7 +26,7 @@ export class SaisiePage implements OnInit {
     public dialog:Dialogs,
     public platform:Platform,
     private camera:Camera,
-    private router:Router//,public barcode: BarcodeScanner
+    private router:Router,public barcode: BarcodeScanner
     ) {
       //Désactive scanner quand le button "Retour" est pressé
       this.platform.backButton.subscribeWithPriority(0,()=>{
@@ -64,9 +64,9 @@ export class SaisiePage implements OnInit {
         this.qrScan = this.qr.scan().subscribe(
             (textFound)=>
             {
-              document.getElementsByTagName("body")[0].style.opacity = "1";
-              this.qrScan.unsubsribe();                                                       
-              this.dialog.alert(textFound); 
+              // document.getElementsByTagName("body")[0].style.opacity = "1";
+              // this.qrScan.unsubsribe();                                                       
+              // this.dialog.alert(textFound); 
             },
             (err)=>{
               this.dialog.alert(JSON.stringify(err))
@@ -81,17 +81,6 @@ export class SaisiePage implements OnInit {
       }
     })
   }
-
-  // startScanning(){
-  //   this.barcode.scan().then((barcodeData)=>{
-  //     alert(barcodeData.text);
-  //     // let text=  barcodeData.text;
-  //     // alert(text);
-  //   },(err)=>{
-  //     console.log('Error',err)
-  //     //alert(JSON.stringify(err));
-  //   })
-  // }
 
    // Message d'erreurs
   validation_messages = {
