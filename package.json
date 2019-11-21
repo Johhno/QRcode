@@ -20,7 +20,6 @@
     "@angular/platform-browser": "~8.1.2",
     "@angular/platform-browser-dynamic": "~8.1.2",
     "@angular/router": "~8.1.2",
-    "@ionic-native/barcode-scanner": "^5.17.0",
     "@ionic-native/camera": "^5.16.0",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/dialogs": "^5.15.1",
@@ -34,7 +33,6 @@
     "cordova-plugin-dialogs": "^2.0.2",
     "cordova-plugin-qrscanner": "^3.0.1",
     "core-js": "^2.5.4",
-    "phonegap-plugin-barcodescanner": "^8.1.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
@@ -86,9 +84,6 @@
       "cordova-plugin-qrscanner": {},
       "cordova-plugin-dialogs": {},
       "cordova-plugin-camera": {
-        "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      },
-      "phonegap-plugin-barcodescanner": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
       }
     },
