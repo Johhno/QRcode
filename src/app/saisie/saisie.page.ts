@@ -67,6 +67,7 @@ export class SaisiePage implements OnInit {
               // document.getElementsByTagName("body")[0].style.opacity = "1";
               // this.qrScan.unsubsribe();                                                       
               // this.dialog.alert(textFound); 
+              textFound = this.saisieForm.value.id_capteur;
             },
             (err)=>{
               this.dialog.alert(JSON.stringify(err))
@@ -81,7 +82,7 @@ export class SaisiePage implements OnInit {
       }
     })
   }
-
+test:string;
    // Message d'erreurs
   validation_messages = {
     'id_capteur': [
@@ -144,5 +145,4 @@ export class SaisiePage implements OnInit {
     };
     return await this.camera.getPicture(options);
   }
-
 }
