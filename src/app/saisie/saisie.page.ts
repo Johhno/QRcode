@@ -6,6 +6,7 @@ import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Router } from '@angular/router';
+import { File } from '@ionic-native/file';
 
 @Component({
   selector: 'app-saisie',
@@ -20,14 +21,15 @@ export class SaisiePage implements OnInit {
   image: string;
 
   constructor(
+    private camera:Camera,
+    private router:Router,
+    private file:File,
     public navCtrl:NavController,
     public formBuilder:FormBuilder,
     public qr:QRScanner,
     public dialog:Dialogs,
     public platform:Platform,
-    private camera:Camera,
-    private router:Router
-    ) {
+  ){
       //Désactive scanner quand le button "Retour" est pressé
       this.platform.backButton.subscribeWithPriority(0,()=>{
         document.getElementsByTagName("body")[0].style.opacity = "1";
@@ -37,15 +39,23 @@ export class SaisiePage implements OnInit {
       // Valide Formulaire
       this.saisieForm = this.formBuilder.group({
         id_capteur: new FormControl('', Validators.compose([
-          //Validators.maxLength(12),
-          //Validators.minLength(5),
           //Validators.pattern('^(^(?:@[a-zA-Z0-9-~][a-zA-A0-9-._~]*/)?[a-z0-9-~][a-z0-9-._~]*$'),
-          //Validators.required
+          Validators.required
         ])) , 
         num_emplacement: new FormControl('', Validators.required) 
       });
   }
  
+  // Message d'erreurs
+  validation_messages = {
+    'id_capteur': [
+      //{ type: 'required', message: 'ID Capteur requis.' },
+      { type: 'pattern', message: 'ID Capteur doit être alphnumériques.' }
+    ],
+    'num_emplacement': [
+      { type: 'required', message: 'Emplacement requis.' }
+    ],
+  };
   // Fonctions
   startScanning(){
     this.qr.prepare().then((status:QRScannerStatus)=>{
@@ -82,20 +92,7 @@ export class SaisiePage implements OnInit {
       }
     })
   }
-test:string;
-   // Message d'erreurs
-  validation_messages = {
-    'id_capteur': [
-      //{ type: 'maxlength', message: 'ID Capteur pas plus de 1 caractère.' },
-      //{ type: 'required', message: 'ID Capteur requis.' },
-      { type: 'pattern', message: 'ID Capteur doit être alphnumériques.' }
-    ],
-    'num_emplacement': [
-      { type: 'required', message: 'Emplacement requis.' }
-    ],
-  };
 
-  // Fonctions
   ngOnInit() {
   }
 
@@ -103,6 +100,9 @@ test:string;
     console.log('Id Capteur: ', this.saisieForm.value.id_capteur);
     console.log('Numéro Emplacement: ', this.saisieForm.value.num_emplacement);
     this.router.navigate(["/home"]);
+    //var file = new File(["foo"], "foo.txt", {
+    //  type: "text/plain",
+    //});
   }
 
   // Choix Bibliothèque - Capture
