@@ -40,11 +40,13 @@
     </div>
 
     <!-- Boutons -->
-    <ion-button (click)="saisie()" [disabled]="!saisieForm.valid" shape="round" size="default" color="primary" expand="block">
-      Submit
+    <ion-button (click)="storeIdentity()" [disabled]="!saisieForm.valid" shape="round" size="default" color="primary" expand="block">
+      <ion-icon name="create"></ion-icon>
+      Saisie
     </ion-button>
     
     <ion-button (click)="startScanning()" expand="full" color="danger" shape="round" size="default" >
+      <ion-icon name="camera" slot="start"></ion-icon>
       QRCode
     </ion-button>
     
