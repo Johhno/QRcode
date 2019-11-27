@@ -40,6 +40,7 @@
     "file-system": "^2.2.2",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
+    "write-json-file": "^4.2.1",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {

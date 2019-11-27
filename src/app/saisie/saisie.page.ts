@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
-import { NavController, Platform } from '@ionic/angular';
+import { NavController, Platform, AlertController } from '@ionic/angular';
 import { HomePage } from '../home/home.page';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Router } from '@angular/router';
 //import { File } from '@ionic-native/file/ngx';
-//import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-saisie',
@@ -20,50 +20,38 @@ export class SaisiePage implements OnInit {
   num_emplacement : string = "";
   saisieForm: FormGroup;
   image: string;
-
+  regex: string = "^(^(?:@[a-zA-Z0-9-~][a-zA-Z0-9-._~]*/)?[a-z0-9-~][a-zA-Z0-9-._~]*$";
   constructor(
     private camera:Camera,
     private router:Router,
-    //private file:File,
+    private file:File,
     public navCtrl:NavController,
+    public alertCtrl: AlertController,
     public formBuilder:FormBuilder,
     public qr:QRScanner,
     public dialog:Dialogs,
     public platform:Platform,
-    //private nativeStorage: NativeStorage
+    private nativeStorage: NativeStorage
   ){       
-    
+    //addPhoto, openLibrary, openCamera
       // Valide Formulaire
       this.saisieForm = this.formBuilder.group({
         id_capteur: new FormControl('', Validators.compose([
-          //Validators.pattern('^(^(?:@[a-zA-Z0-9-~][a-zA-Z0-9-._~]*/)?[a-z0-9-~][a-zA-Z0-9-._~]*$'),
+
+          Validators.pattern(this.regex),
           Validators.required
         ])) , 
         num_emplacement: new FormControl('', Validators.required) 
       });    
 
-    
       //Désactive scanner quand le button "Retour" est pressé
       this.platform.backButton.subscribeWithPriority(0,()=>{
         document.getElementsByTagName("body")[0].style.opacity = "1";
         this.qrScan.unsubsribe();
       });
-/*      
-      // Gestion de fichier - Gestion de périph
-      this.file.checkDir(this.file.dataDirectory, 'mydir').then(_ => console.log('Directory exists')).catch(err =>
-        console.log("Directory doesn't exist"));
-*/
-
 
   }
-/*
-  storeIdentity():void{
-    this.nativeStorage.setItem('données', {
-      id_capteur: this.saisieForm.value.id_capteur,
-      num_emplacement: this.saisieForm.value.emplacement
-    })
- 
-  }*/
+
   // Message d'erreurs
   validation_messages = {
     'id_capteur': [
@@ -79,13 +67,29 @@ export class SaisiePage implements OnInit {
 
   ngOnInit() {
   }
- 
-  saisie(values){
+ /*  saisie(values){
     console.log('Id Capteur: ', this.saisieForm.value.id_capteur);
     console.log('Numéro Emplacement: ', this.saisieForm.value.num_emplacement);
-    document.write(this.saisieForm.value.id_capteur);
     //this.fichier();
     this.router.navigate(["/home"]);
+  }
+*/
+  saisie():void{
+    this.nativeStorage.setItem('données', {
+      id_capteur: this.saisieForm.value.id_capteur,
+      num_emplacement: this.saisieForm.value.emplacement
+    })
+    .then(
+      () => {
+        let alert = this.alertCtrl.create({
+          //title: "Données saisies",
+          //subtitle: "soustitres",
+          buttons: ["Super"]
+        });
+        //alert.present("Saisie");
+      },
+      error => console.error ("Erreur", error)
+    );
   }
 /*
   fichier(){
@@ -99,6 +103,7 @@ export class SaisiePage implements OnInit {
 
       console.log("Enregistré")
     })
+    
   }
 */
   startScanning(){
