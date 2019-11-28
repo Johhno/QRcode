@@ -13,17 +13,21 @@ export class SigninPage implements OnInit {
   login : string = "";
   password : string = "";
   signinForm: FormGroup;
+  regex: string = "^(?:@[a-zA-Z-~][a-zA-Z-._~]*/)?[a-zA-Z-~][a-zA-Z-._~]*$";
 
   constructor(
-    public formBuilder:FormBuilder,
-    public dialog:Dialogs,
-    public platform:Platform,
-    private router:Router
+    public formBuilder: FormBuilder,
+    public dialog: Dialogs,
+    public platform: Platform,
+    private router: Router
     ) {
       
       // Valide Formulaire
       this.signinForm = this.formBuilder.group({
-        login: new FormControl('', Validators.required),
+        login: new FormControl('', Validators.compose([,
+          Validators.pattern(this.regex),
+          Validators.required
+        ])) , 
         password: new FormControl('', Validators.required)   
       });
   }
@@ -31,7 +35,8 @@ export class SigninPage implements OnInit {
    // Message d'erreurs
   validation_messages = {
     'login': [
-      { type: 'required', message: 'Login requis.' }
+      { type: 'required', message: 'Login requis.' },
+      { type: 'pattern', message: 'Veuillez taper uniquement des lettres.' }
     ],
     'password': [
       { type: 'required', message: 'Password requis.' }
@@ -40,11 +45,11 @@ export class SigninPage implements OnInit {
 
   // Fonctions
   ngOnInit() {
-
   }
+
   signin(values){
-    console.log('Login: ', this.signinForm.value.login);
-    console.log('Password: ', this.signinForm.value.password);
+    console.log('Login    : ', this.signinForm.value.login);
+    console.log('Password : ', this.signinForm.value.password);
     this.router.navigate(["/saisie"]);
   }
 }

@@ -23,12 +23,14 @@
     </div>
 
     <ion-item>
-      <ion-label>N° Emplacement</ion-label>                 <!-- Label Emplacement -->
+      <ion-label>N° Emplacement</ion-label>                 <!-- Label Emplacement --><!--
       <ion-select placeholder="Select One" formControlName="num_emplacement" [(ngModel)]="num_emplacement">
         <ion-select-option value="1">1</ion-select-option>
         <ion-select-option value="2">2</ion-select-option>
-      </ion-select>
+      </ion-select>-->
+      <ion-input type="text" formControlName="num_emplacement" [(ngModel)]="num_emplacement"></ion-input>
     </ion-item>
+
     
     <div class="validation-errors">                          <!-- Message d'erreurs -->
       <ng-container *ngFor="let validation of validation_messages.num_emplacement">

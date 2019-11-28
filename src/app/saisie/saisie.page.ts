@@ -6,8 +6,7 @@ import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Router } from '@angular/router';
-//import { File } from '@ionic-native/file/ngx';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';import { File } from '@ionic-native/file/ngx';              
 
 @Component({
   selector: 'app-saisie',
@@ -20,24 +19,24 @@ export class SaisiePage implements OnInit {
   num_emplacement : string = "";
   saisieForm: FormGroup;
   image: string;
-  regex: string = "^(^(?:@[a-zA-Z0-9-~][a-zA-Z0-9-._~]*/)?[a-z0-9-~][a-zA-Z0-9-._~]*$";
+  regex: string = "^(?:@[a-zA-Z0-9-~][a-zA-Z0-9-._~]*/)?[a-zA-Z0-9-~][a-zA-Z0-9-._~]*$";
+
   constructor(
-    private camera:Camera,
-    private router:Router,
-    private file:File,
-    public navCtrl:NavController,
+    private camera: Camera,
+    private router: Router,
+    private sqlite: SQLite,
+    private file: File,
+    public navCtrl: NavController,
     public alertCtrl: AlertController,
-    public formBuilder:FormBuilder,
-    public qr:QRScanner,
-    public dialog:Dialogs,
-    public platform:Platform,
-    private nativeStorage: NativeStorage
-  ){       
-    //addPhoto, openLibrary, openCamera
+    public formBuilder: FormBuilder,
+    public qr: QRScanner,
+    public dialog: Dialogs,
+    public platform: Platform,
+  ){        
+    
       // Valide Formulaire
       this.saisieForm = this.formBuilder.group({
         id_capteur: new FormControl('', Validators.compose([
-
           Validators.pattern(this.regex),
           Validators.required
         ])) , 
@@ -50,67 +49,40 @@ export class SaisiePage implements OnInit {
         this.qrScan.unsubsribe();
       });
 
+      this.sqlite.create({
+        name: 'data.db',
+        location: 'default'
+      })
   }
 
   // Message d'erreurs
   validation_messages = {
     'id_capteur': [
-      //{ type: 'required', message: 'ID Capteur requis.' },
-      { type: 'pattern', message: 'ID Capteur doit être alphnumériques.' }
+      //{ type: 'required', message: 'Identifiant du capteur requis.' },
+      //{ type: 'pattern', message: 'Le format doit être alphnumériques.' }
     ],
     'num_emplacement': [
       //{ type: 'required', message: 'Emplacement requis.' }
     ],
   };
 
-  // Fonctions
-
+  // Fonctions //saisie, startScanning, addPhoto, openLibrary, openCamera
   ngOnInit() {
   }
- /*  saisie(values){
-    console.log('Id Capteur: ', this.saisieForm.value.id_capteur);
-    console.log('Numéro Emplacement: ', this.saisieForm.value.num_emplacement);
-    //this.fichier();
-    this.router.navigate(["/home"]);
-  }
-*/
-  saisie():void{
-    this.nativeStorage.setItem('données', {
-      id_capteur: this.saisieForm.value.id_capteur,
-      num_emplacement: this.saisieForm.value.emplacement
-    })
-    .then(
-      () => {
-        let alert = this.alertCtrl.create({
-          //title: "Données saisies",
-          //subtitle: "soustitres",
-          buttons: ["Super"]
-        });
-        //alert.present("Saisie");
-      },
-      error => console.error ("Erreur", error)
-    );
-  }
-/*
-  fichier(){
-    console.log("   ---   Gestion Fichier   ---");
-    const fs = require('fs');
-    let texte ="Lorem";
 
-    //Ecriture de fichier
-    fs.writeFile('test.txt',texte,(err) => {
-      if(err) throw err;
-
-      console.log("Enregistré")
-    })
-    
+  saisie(values){
+    console.log('Id Capteur         : ', this.saisieForm.value.id_capteur);
+    console.log('Numéro Emplacement : ', this.saisieForm.value.num_emplacement);
+    //this.router.navigate(["/home"]);
+    //var file = new File(["foo"], "foo.txt", {
+    //  type: "text/plain",
+    //});
   }
-*/
+
   startScanning(){
     this.qr.prepare().then((status:QRScannerStatus)=>{
       if(status.authorized)
       {
-
         //Autorisé
         this.qr.scan();
         this.qr.show( );
@@ -122,6 +94,7 @@ export class SaisiePage implements OnInit {
               // this.qrScan.unsubsribe();                                                       
               // this.dialog.alert(textFound); 
               this.saisieForm.value.id_capteur = textFound ;
+              //this.dialog.alert(textFound);
               this.qrScan.hide(); //hide camera preview
               this.qrScan.unsubsribe();  
             },
@@ -138,7 +111,6 @@ export class SaisiePage implements OnInit {
       }
     })
   }
-
 
   // Choix Bibliothèque - Capture
   async addPhoto(source: string) {
