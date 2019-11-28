@@ -19,7 +19,7 @@ export class SaisiePage implements OnInit {
   num_emplacement : string = "";
   saisieForm: FormGroup;
   image: string;
-
+//test
   constructor(
     private camera:Camera,
     private router:Router,
