@@ -94,7 +94,7 @@ export class SaisiePage implements OnInit {
               // this.qrScan.unsubsribe();                                                       
               // this.dialog.alert(textFound); 
               this.saisieForm.value.id_capteur = textFound ;
-              //this.dialog.alert(textFound);
+              this.dialog.alert(textFound);this.dialog.alert(this.saisieForm.value.id_capteur);
               this.qrScan.hide(); //hide camera preview
               this.qrScan.unsubsribe();  
             },
