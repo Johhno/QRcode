@@ -4,9 +4,8 @@ import { NavController, Platform, AlertController } from '@ionic/angular';
 import { HomePage } from '../home/home.page';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Router } from '@angular/router';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';import { File } from '@ionic-native/file/ngx';              
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';           
 
 @Component({
   selector: 'app-saisie',
@@ -18,14 +17,11 @@ export class SaisiePage implements OnInit {
   id_capteur : string = "";
   num_emplacement : string = "";
   saisieForm: FormGroup;
-  image: string;
-  regex: string = "^(?:@[a-zA-Z0-9-~][a-zA-Z0-9-._~]*/)?[a-zA-Z0-9-~][a-zA-Z0-9-._~]*$";
+  regex: string = "^(?:@[a-zA-Z0-9][a-zA-Z0-9]*/)?[a-zA-Z0-9][a-zA-Z0-9]*$";
 
   constructor(
-    private camera: Camera,
     private router: Router,
     private sqlite: SQLite,
-    private file: File,
     public navCtrl: NavController,
     public alertCtrl: AlertController,
     public formBuilder: FormBuilder,
@@ -49,12 +45,22 @@ export class SaisiePage implements OnInit {
         this.qrScan.unsubsribe();
       });
 
-      this.sqlite.create({
-        name: 'data.db',
-        location: 'default'
-      })
+      // this.sqlite.create({
+      //   name: 'data.db',
+      //   location: 'default'
+      // })
   }
 
+  async saisieAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Alert',
+      subHeader: '',
+      message: 'This is an alert message.<ion-spinner name="bubbles"></ion-spinner>',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
   // Message d'erreurs
   validation_messages = {
     'id_capteur': [
@@ -65,7 +71,7 @@ export class SaisiePage implements OnInit {
       //{ type: 'required', message: 'Emplacement requis.' }
     ],
   };
-
+ 
   // Fonctions //saisie, startScanning, addPhoto, openLibrary, openCamera
   ngOnInit() {
   }
@@ -73,14 +79,14 @@ export class SaisiePage implements OnInit {
   saisie(values){
     console.log('Id Capteur         : ', this.saisieForm.value.id_capteur);
     console.log('Numéro Emplacement : ', this.saisieForm.value.num_emplacement);
-    //this.router.navigate(["/home"]);
-    //var file = new File(["foo"], "foo.txt", {
-    //  type: "text/plain",
-    //});
+    this.saisieAlert();
+    this.router.navigate(["/home"]);
   }
 
   startScanning(){
-    this.qr.prepare().then((status:QRScannerStatus)=>{
+    this.qr.prepare()
+    
+    .then((status:QRScannerStatus)=>{
       if(status.authorized)
       {
         //Autorisé
@@ -90,11 +96,10 @@ export class SaisiePage implements OnInit {
         this.qrScan = this.qr.scan().subscribe(
             (textFound)=>
             {
-              // document.getElementsByTagName("body")[0].style.opacity = "1";
-              // this.qrScan.unsubsribe();                                                       
-              // this.dialog.alert(textFound); 
+              document.getElementsByTagName("body")[0].style.opacity = "1";
+              //this.qrScan.unsubsribe();                                                       
+              this.dialog.alert(textFound); 
               this.saisieForm.value.id_capteur = textFound ;
-              this.dialog.alert(textFound);this.dialog.alert(this.saisieForm.value.id_capteur);
               this.qrScan.hide(); //hide camera preview
               this.qrScan.unsubsribe();  
             },
@@ -110,46 +115,5 @@ export class SaisiePage implements OnInit {
         //Camera refusé mais peut demander l'accès plus tard
       }
     })
-  }
-
-  // Choix Bibliothèque - Capture
-  async addPhoto(source: string) {
-    if (source === 'library'){
-      console.log('library');
-      const libraryImage = await this.openLibrary();
-      this.image = 'data:image/jpg;base64,' + libraryImage;
-    }
-    else{
-      console.log('camera');
-      const cameraImage = await this.openCamera();
-      this.image = 'data:image/jpg;base64,' + cameraImage;
-    }
- }
-
-  // Ouvre THE Bibliothèque
-  async openLibrary() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      targetWidth: 1000,
-      targetHeight: 1000,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-    };
-    return await this.camera.getPicture(options);
-  }
-
-  async openCamera() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      targetWidth: 1000,
-      targetHeight: 1000,
-      sourceType: this.camera.PictureSourceType.CAMERA
-    };
-    return await this.camera.getPicture(options);
   }
 }

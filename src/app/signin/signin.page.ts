@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
-import { Platform } from '@ionic/angular';
+import { Platform , AlertController } from '@ionic/angular';
 import {Dialogs} from '@ionic-native/dialogs/ngx';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.page.html',
@@ -18,6 +19,7 @@ export class SigninPage implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public dialog: Dialogs,
+    public alertCtrl: AlertController,
     public platform: Platform,
     private router: Router
     ) {
@@ -50,6 +52,18 @@ export class SigninPage implements OnInit {
   signin(values){
     console.log('Login    : ', this.signinForm.value.login);
     console.log('Password : ', this.signinForm.value.password);
+    this.signinAlert();
     this.router.navigate(["/saisie"]);
+  }
+  async signinAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Alert',
+      subHeader: '',
+      message: "Login : " +this.signinForm.value.login+
+      "<br/>Password : "+this.signinForm.value.password,
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 }

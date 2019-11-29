@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { QRScanner } from '@ionic-native/qr-scanner/ngx';
-import { Camera } from '@ionic-native/camera/ngx';
 import { IonicModule } from '@ionic/angular';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { SaisiePage } from './saisie.page';
@@ -24,7 +23,6 @@ const routes: Routes = [
   ],
   providers:[
     QRScanner,
-    Camera,
     Dialogs,
       
   ],

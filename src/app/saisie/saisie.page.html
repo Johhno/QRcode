@@ -31,7 +31,6 @@
       <ion-input type="text" formControlName="num_emplacement" [(ngModel)]="num_emplacement"></ion-input>
     </ion-item>
 
-    
     <div class="validation-errors">                          <!-- Message d'erreurs -->
       <ng-container *ngFor="let validation of validation_messages.num_emplacement">
         <div class="error-message" *ngIf="saisieForm.get('num_emplacement').hasError(validation.type) 
@@ -52,21 +51,7 @@
       QRCode
     </ion-button>
     
-    <ion-button (click)="addPhoto('library')" color="tertiary" expand="block">
-      <ion-icon name="image" slot="start"></ion-icon>
-      Ouvrir la bibliothèque
-    </ion-button>
 
-    <ion-button (click)="addPhoto('camera')" color="secondary" expand="block">
-      <ion-icon name="camera" slot="start"></ion-icon>
-      Prendre une photo
-    </ion-button>
-
-    <div class="flex">
-      <div class="img-box">
-        <img [src]="image">
-      </div>
-    </div>
 
   </form>
 
