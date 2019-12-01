@@ -71,7 +71,7 @@ export class SaisiePage implements OnInit {
       //{ type: 'required', message: 'Emplacement requis.' }
     ],
   };
- 
+
   // Fonctions //saisie, startScanning, addPhoto, openLibrary, openCamera
   ngOnInit() {
   }
@@ -98,7 +98,7 @@ export class SaisiePage implements OnInit {
             {
               document.getElementsByTagName("body")[0].style.opacity = "1";
               //this.qrScan.unsubsribe();                                                       
-              this.dialog.alert(textFound); 
+              this.id_capteur = textFound ;
               this.saisieForm.value.id_capteur = textFound ;
               this.qrScan.hide(); //hide camera preview
               this.qrScan.unsubsribe();  
