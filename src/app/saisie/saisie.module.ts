@@ -24,7 +24,6 @@ const routes: Routes = [
   providers:[
     QRScanner,
     Dialogs,
-      
   ],
   declarations: [SaisiePage]
 })

@@ -5,13 +5,19 @@ import { HomePage } from '../home/home.page';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Router } from '@angular/router';
+
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';           
+import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
+
+// import { File } from '@ionic-native/file';
+// import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-saisie',
   templateUrl: './saisie.page.html',
   styleUrls: ['./saisie.page.scss'],
 })
+
 export class SaisiePage implements OnInit {
   qrScan:any;
   id_capteur : string = "";
@@ -21,7 +27,12 @@ export class SaisiePage implements OnInit {
 
   constructor(
     private router: Router,
-    private sqlite: SQLite,
+    // private sqlite: SQLite,
+    // private sqlitePorter: SQLitePorter,
+    private storage: Storage,
+    private file: File,
+    
+    // private stateLine: string = "",
     public navCtrl: NavController,
     public alertCtrl: AlertController,
     public formBuilder: FormBuilder,
@@ -29,7 +40,7 @@ export class SaisiePage implements OnInit {
     public dialog: Dialogs,
     public platform: Platform,
   ){        
-    
+
       // Valide Formulaire
       this.saisieForm = this.formBuilder.group({
         id_capteur: new FormControl('', Validators.compose([
@@ -44,23 +55,33 @@ export class SaisiePage implements OnInit {
         document.getElementsByTagName("body")[0].style.opacity = "1";
         this.qrScan.unsubsribe();
       });
+   
+  }
 
-      // this.sqlite.create({
-      //   name: 'data.db',
-      //   location: 'default'
-      // })
+  async storeData(){
+     // set a key/value
+    this.storage.set('age', '10');
+
+    // Or to get a key/value pair
+    this.storage.get('val').then((val) => {
+      console.log('Your age is', val);
+    });
   }
 
   async saisieAlert() {
     const alert = await this.alertCtrl.create({
       header: 'Alert',
       subHeader: '',
-      message: 'This is an alert message.<ion-spinner name="bubbles"></ion-spinner>',
+      message: 'This is an alert message.',
       buttons: ['OK']
     });
 
     await alert.present();
   }
+
+
+
+
   // Message d'erreurs
   validation_messages = {
     'id_capteur': [
@@ -96,12 +117,12 @@ export class SaisiePage implements OnInit {
         this.qrScan = this.qr.scan().subscribe(
             (textFound)=>
             {
-              document.getElementsByTagName("body")[0].style.opacity = "1";
-              //this.qrScan.unsubsribe();                                                       
+              document.getElementsByTagName("body")[0].style.opacity = "1";                                            
               this.id_capteur = textFound ;
-              this.saisieForm.value.id_capteur = textFound ;
-              this.qrScan.hide(); //hide camera preview
-              this.qrScan.unsubsribe();  
+              if(this.id_capteur != ""){
+                this.qrScan.hide(); //hide camera preview
+                this.qrScan.unsubsribe();  
+              }
             },
             (err)=>{
               this.dialog.alert(JSON.stringify(err))
