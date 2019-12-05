@@ -54,7 +54,7 @@ export class DatabaseService {
       return this.dbReady.asObservable();
     }
    
-    getDevs(): Observable<CapteurInterface[]> {
+    getCapteurs(): Observable<CapteurInterface[]> {
       return this.capteursBS.asObservable();
     }
 
@@ -81,6 +81,4 @@ export class DatabaseService {
         this.loadCapteurs();
       });
     }
-
-    
 }

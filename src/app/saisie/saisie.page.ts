@@ -11,7 +11,8 @@ import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 
 // import { File } from '@ionic-native/file';
 // import { Storage } from '@ionic/storage';
-
+import { DatabaseService, CapteurInterface } from '../services/database.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-saisie',
   templateUrl: './saisie.page.html',
@@ -24,7 +25,7 @@ export class SaisiePage implements OnInit {
   num_emplacement : string = "";
   saisieForm: FormGroup;
   regex: string = "^(?:@[a-zA-Z0-9][a-zA-Z0-9]*/)?[a-zA-Z0-9][a-zA-Z0-9]*$";
-
+  capteurInt: CapteurInterface[] = [];
   constructor(
     private router: Router,
     // private sqlite: SQLite,
@@ -79,9 +80,6 @@ export class SaisiePage implements OnInit {
     await alert.present();
   }
 
-
-
-
   // Message d'erreurs
   validation_messages = {
     'id_capteur': [
@@ -95,6 +93,14 @@ export class SaisiePage implements OnInit {
 
   // Fonctions //saisie, startScanning, addPhoto, openLibrary, openCamera
   ngOnInit() {
+    this.db.getDatabaseState().subscribe(rdy => {
+      if (rdy) {
+        this.db.getCapteur().subscribe(devs => {
+          this.capteurInt = devs;
+        })
+        this.products = this.db.getProducts();
+      }
+    });
   }
 
   saisie(values){
