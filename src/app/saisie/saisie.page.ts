@@ -40,6 +40,7 @@ export class SaisiePage implements OnInit {
     public qr: QRScanner,
     public dialog: Dialogs,
     public platform: Platform,
+    private db: DatabaseService
   ){        
 
       // Valide Formulaire
@@ -95,14 +96,20 @@ export class SaisiePage implements OnInit {
   ngOnInit() {
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
-        this.db.getCapteur().subscribe(devs => {
-          this.capteurInt = devs;
+        this.db.getCapteurs().subscribe(capteur => {
+          this.capteurInt = capteur;
         })
-        this.products = this.db.getProducts();
+         
       }
     });
   }
+  addCapteur() {
 
+    this.db.addCapteur(this.capteurInt['matricule'])
+    .then(_ => {
+      this.developer = {};
+    });
+  }
   saisie(values){
     console.log('Id Capteur         : ', this.saisieForm.value.id_capteur);
     console.log('Numéro Emplacement : ', this.saisieForm.value.num_emplacement);
