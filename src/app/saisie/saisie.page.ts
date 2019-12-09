@@ -103,13 +103,13 @@ export class SaisiePage implements OnInit {
       }
     });
   }
-  addCapteur() {
+  // addCapteur() {
 
-    this.db.addCapteur(this.capteurInt['matricule'])
-    .then(_ => {
-      this.developer = {};
-    });
-  }
+  //   this.db.addCapteur(this.capteurInt['matricule'])
+  //   .then(_ => {
+  //     this.developer = {};
+  //   });
+  // }
   saisie(values){
     console.log('Id Capteur         : ', this.saisieForm.value.id_capteur);
     console.log('Numéro Emplacement : ', this.saisieForm.value.num_emplacement);
