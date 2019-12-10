@@ -6,6 +6,17 @@
 
 <ion-content class="ion-padding">
   
+  <ion-segment [(ngModel)]="selectedView">
+    <ion-segment-button value="capteur">
+      <ion-label>Capteur</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="emplacement">
+      <ion-label>Emplacement</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="selectedView">
+      <div *ngSwitchCase="'devs'">
   <form [formGroup]="saisieForm">
 
     <ion-item>                                                <!-- Label ID Capteur -->
@@ -52,5 +63,5 @@
     </ion-button>
     
   </form>
-
+</div></div>
 </ion-content>

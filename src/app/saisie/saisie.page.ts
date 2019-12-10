@@ -26,13 +26,16 @@ export class SaisiePage implements OnInit {
   saisieForm: FormGroup;
   regex: string = "^(?:@[a-zA-Z0-9][a-zA-Z0-9]*/)?[a-zA-Z0-9][a-zA-Z0-9]*$";
   capteurInt: CapteurInterface[] = [];
+
+  capteur = {};
+  emplacement = {};
+
   constructor(
     private router: Router,
-    // private sqlite: SQLite,
-    // private sqlitePorter: SQLitePorter,
+    private sqlite: SQLite,
+    private sqlitePorter: SQLitePorter,
     private storage: Storage,
-    private file: File,
-    
+    //private file: File,
     // private stateLine: string = "",
     public navCtrl: NavController,
     public alertCtrl: AlertController,
@@ -57,7 +60,6 @@ export class SaisiePage implements OnInit {
         document.getElementsByTagName("body")[0].style.opacity = "1";
         this.qrScan.unsubsribe();
       });
-   
   }
 
   async storeData(){
@@ -103,13 +105,12 @@ export class SaisiePage implements OnInit {
       }
     });
   }
-  // addCapteur() {
-
-  //   this.db.addCapteur(this.capteurInt['matricule'])
-  //   .then(_ => {
-  //     this.developer = {};
-  //   });
-  // }
+  addCapteur() {
+    this.db.addCapteur(this.capteurInt['matricule'],this.capteurInt['emplacement'])
+    .then(_ => {
+      this.capteur = {};
+    });
+  }
   saisie(values){
     console.log('Id Capteur         : ', this.saisieForm.value.id_capteur);
     console.log('Numéro Emplacement : ', this.saisieForm.value.num_emplacement);
