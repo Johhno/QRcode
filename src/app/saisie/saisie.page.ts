@@ -5,13 +5,7 @@ import { HomePage } from '../home/home.page';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Router } from '@angular/router';
-
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';           
-import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
-
-// import { File } from '@ionic-native/file';
-import { Storage } from '@ionic/storage';
-import { DatabaseService, CapteurInterface } from '../services/database.service';
+ 
 import { Observable } from 'rxjs';
 @Component({
   selector: 'app-saisie',
@@ -25,25 +19,21 @@ export class SaisiePage implements OnInit {
   num_emplacement : string = "";
   saisieForm: FormGroup;
   regex: string = "^(?:@[a-zA-Z0-9][a-zA-Z0-9]*/)?[a-zA-Z0-9][a-zA-Z0-9]*$";
-  // capteurInt: CapteurInterface[] = [];
+   
 
-  capteur = {};
-  emplacement = {};
+ 
 
   constructor(
     private router: Router,
-    private sqlite: SQLite,
-    private sqlitePorter: SQLitePorter,
-    //private storage: Storage,
-    //private file: File,
-    // private stateLine: string = "",
+ 
+
     public navCtrl: NavController,
     public alertCtrl: AlertController,
     public formBuilder: FormBuilder,
     public qr: QRScanner,
     public dialog: Dialogs,
     public platform: Platform,
-    private db: DatabaseService
+    
   ){        
 
       // Valide Formulaire
