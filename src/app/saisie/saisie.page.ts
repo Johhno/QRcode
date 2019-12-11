@@ -10,7 +10,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 
 // import { File } from '@ionic-native/file';
-// import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage';
 import { DatabaseService, CapteurInterface } from '../services/database.service';
 import { Observable } from 'rxjs';
 @Component({
@@ -25,7 +25,7 @@ export class SaisiePage implements OnInit {
   num_emplacement : string = "";
   saisieForm: FormGroup;
   regex: string = "^(?:@[a-zA-Z0-9][a-zA-Z0-9]*/)?[a-zA-Z0-9][a-zA-Z0-9]*$";
-  capteurInt: CapteurInterface[] = [];
+  // capteurInt: CapteurInterface[] = [];
 
   capteur = {};
   emplacement = {};
@@ -34,7 +34,7 @@ export class SaisiePage implements OnInit {
     private router: Router,
     private sqlite: SQLite,
     private sqlitePorter: SQLitePorter,
-    private storage: Storage,
+    //private storage: Storage,
     //private file: File,
     // private stateLine: string = "",
     public navCtrl: NavController,
@@ -62,15 +62,15 @@ export class SaisiePage implements OnInit {
       });
   }
 
-  async storeData(){
-     // set a key/value
-    this.storage.set('age', '10');
+  // async storeData(){
+  //    // set a key/value
+  //   this.storage.set('age', '10');
 
-    // Or to get a key/value pair
-    this.storage.get('val').then((val) => {
-      console.log('Your age is', val);
-    });
-  }
+  //   // Or to get a key/value pair
+  //   this.storage.get('val').then((val) => {
+  //     console.log('Your age is', val);
+  //   });
+  // }
 
   async saisieAlert() {
     const alert = await this.alertCtrl.create({
@@ -96,20 +96,20 @@ export class SaisiePage implements OnInit {
 
   // Fonctions //saisie, startScanning, addPhoto, openLibrary, openCamera
   ngOnInit() {
-    this.db.getDatabaseState().subscribe(rdy => {
-      if (rdy) {
-        this.db.getCapteurs().subscribe(capteur => {
-          this.capteurInt = capteur;
-        })
+    // this.db.getDatabaseState().subscribe(rdy => {
+    //   if (rdy) {
+    //     this.db.getCapteurs().subscribe(capteur => {
+    //       this.capteurInt = capteur;
+    //     })
          
-      }
-    });
+    //   }
+    // });
   }
   addCapteur() {
-    this.db.addCapteur(this.capteurInt['matricule'],this.capteurInt['emplacement'])
-    .then(_ => {
-      this.capteur = {};
-    });
+    // this.db.addCapteur(this.capteurInt['matricule'],this.capteurInt['emplacement'])
+    // .then(_ => {
+    //   this.capteur = {};
+    // });
   }
   saisie(values){
     console.log('Id Capteur         : ', this.saisieForm.value.id_capteur);

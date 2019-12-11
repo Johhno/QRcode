@@ -14,14 +14,14 @@ import { SQLite } from '@ionic-native/sqlite/ngx';
 import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 
 // import { File } from '@ionic-native/file/ngx';
-// import { IonicStorageModule } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,IonicStorageModule
   ],
   providers: [
     StatusBar,
@@ -29,7 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     NativeStorage,
     SQLite,
-    SQLitePorter//,
+    SQLitePorter  
     //File
   ],
   bootstrap: [AppComponent]

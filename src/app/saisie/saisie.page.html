@@ -5,26 +5,15 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  
-  <ion-segment [(ngModel)]="selectedView">
-    <ion-segment-button value="capteur">
-      <ion-label>Capteur</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="emplacement">
-      <ion-label>Emplacement</ion-label>
-    </ion-segment-button>
-  </ion-segment>
 
-  <div [ngSwitch]="selectedView">
-      <div *ngSwitchCase="'devs'">
   <form [formGroup]="saisieForm">
-
-    <ion-item>                                                <!-- Label ID Capteur -->
+<!-- Label ID Capteur -->
+    <ion-item>                                                 
       <ion-label floating color="primary">ID Capteur</ion-label>
       <ion-input type="text" formControlName="id_capteur" [(ngModel)]="id_capteur"></ion-input>
     </ion-item>
-
-    <div class="validation-errors">                           <!-- Message d'erreurs -->
+    <!-- Message d'erreurs -->
+    <div class="validation-errors">                           
       <ng-container *ngFor="let validation of validation_messages.id_capteur">
         <div class="error-message" *ngIf="saisieForm.get('id_capteur').hasError(validation.type) 
         && (saisieForm.get('id_capteur').dirty || saisieForm.get('id_capteur').touched)">
@@ -33,16 +22,17 @@
       </ng-container>
     </div>
 
+<!-- Label Emplacement -->
     <ion-item>
-      <ion-label>N° Emplacement</ion-label>                 <!-- Label Emplacement --><!--
-      <ion-select placeholder="Select One" formControlName="num_emplacement" [(ngModel)]="num_emplacement">
+      <ion-label>N° Emplacement</ion-label>                 
+      <!-- <ion-select placeholder="Select One" formControlName="num_emplacement" [(ngModel)]="num_emplacement">
         <ion-select-option value="1">1</ion-select-option>
         <ion-select-option value="2">2</ion-select-option>
-      </ion-select>-->
+      </ion-select>  -->
       <ion-input type="text" formControlName="num_emplacement" [(ngModel)]="num_emplacement"></ion-input>
     </ion-item>
-
-    <div class="validation-errors">                          <!-- Message d'erreurs -->
+    <!-- Message d'erreurs -->
+    <div class="validation-errors">                          
       <ng-container *ngFor="let validation of validation_messages.num_emplacement">
         <div class="error-message" *ngIf="saisieForm.get('num_emplacement').hasError(validation.type) 
         && (saisieForm.get('num_emplacement').dirty || saisieForm.get('num_emplacement').touched)">
@@ -63,5 +53,5 @@
     </ion-button>
     
   </form>
-</div></div>
+ 
 </ion-content>

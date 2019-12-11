@@ -29,12 +29,15 @@ export class DatabaseService {
 
       this.platform.ready().then(() => {
         this.sqlite.create({
-          name: 'capteur.db',
-          location: 'default'
+          name: 'test.db',
+          location: "C:\Users\stage\Documents\Qr"
         })
         .then((db: SQLiteObject) => {
-            this.database = db;
-            this.seedDatabase();
+          db.executeSql('create table if not exists danceMoves(name VARCHAR(32))', [])
+          .then(() => console.log('Executed SQL'))
+          .catch(e => console.log(e));
+
+            
         });
       });
     }
