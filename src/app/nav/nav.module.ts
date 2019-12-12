@@ -1,30 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
+import { SaisiePage } from '../saisie/saisie.page';
 import { IonicModule } from '@ionic/angular';
-import { Dialogs } from '@ionic-native/dialogs/ngx';
-import { SigninPage } from './signin.page';
- 
+
+import { NavPage } from './nav.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: SigninPage
+    component: NavPage
   }
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    IonicModule, 
+    FormsModule,
+    IonicModule,
     RouterModule.forChild(routes)
   ],
-  providers:[
-    Dialogs
-  ],
-  declarations: [SigninPage]
+  declarations: [NavPage]
 })
-export class SigninPageModule {}
+export class NavPageModule {}
+

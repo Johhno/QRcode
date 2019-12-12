@@ -29,7 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     NativeStorage,
     SQLite,
-    SQLitePorter  
+    SQLitePorter
     //File
   ],
   bootstrap: [AppComponent]
