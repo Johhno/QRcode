@@ -8,7 +8,6 @@
 
 <ion-content class="ion-padding">
   
-  
   <form [formGroup]="signinForm">
 
     <ion-item>                                                
@@ -30,7 +29,6 @@
       <ion-input type="password" formControlName="password" [(ngModel)]="password"></ion-input>
     </ion-item>
 
-    
     <div class="validation-errors">                          <!-- Message d'erreurs -->
       <ng-container *ngFor="let validation of validation_messages.password">
         <div class="error-message" *ngIf="signinForm.get('password').hasError(validation.type) 
@@ -44,9 +42,7 @@
     <ion-button (click)="signin()" [disabled]="!signinForm.valid" shape="round" size="default" color="primary" expand="block">
       Submit
     </ion-button> 
- 
 
   </form>
-
 
 </ion-content>
