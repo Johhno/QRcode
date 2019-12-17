@@ -25,7 +25,7 @@ export class SaisiePage implements OnInit {
   num_emplacement : string = "";
   saisieForm: FormGroup;
   regex: string = "^(?:@[a-zA-Z0-9][a-zA-Z0-9]*/)?[a-zA-Z0-9][a-zA-Z0-9]*$";
-  // capteurInt: CapteurInterface[] = [];
+  capteurInt: CapteurInterface[] = [];
 
   capteur = {};
   emplacement = {};
