@@ -42,11 +42,16 @@
     </div>
 
     <!-- Boutons -->
-    <ion-button (click)="storeData()" [disabled]="!saisieForm.valid" shape="round" size="default" color="primary" expand="block">
+    <ion-button (click)="addCapteur()" [disabled]="!saisieForm.valid" shape="round" size="default" color="primary" expand="block">
       <ion-icon name="create"></ion-icon>
       Saisie
     </ion-button>
     
+    <ion-button (click)="loadCapteurs()" size="default" color="primary" expand="full">
+      <ion-icon name="create"></ion-icon>
+      select
+    </ion-button>
+
     <ion-button (click)="startScanning()" expand="full" color="danger" shape="round" size="default" >
       <ion-icon name="camera" slot="start"></ion-icon>
       QRCode

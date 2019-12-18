@@ -84,4 +84,20 @@ export class DatabaseService {
         this.loadCapteurs();
       });
     }
+
+    // addCapteur(matricule, emplacement) {
+    //   let data = [matricule, emplacement];
+    //   return new Promise((resolve,reject) => {
+    //     console.log("-- Promesse --");
+    //     this.database.executeSql('INSERT INTO capteur (matricule, emplacement) VALUES (?, ?)', data).then(data => {
+    //       // this.loadCapteurs();
+    //       resolve(data);
+    //     },(error) => {
+    //       reject(error);
+    //     })
+       
+    //   });
+    // }
+
+ 
 }

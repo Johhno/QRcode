@@ -35,7 +35,7 @@ export class SaisiePage implements OnInit {
     private sqlitePorter: SQLitePorter,
     //private storage: Storage,
     //private file: File,
-    // private stateLine: string = "",
+    //private stateLine: string = "",
     public navCtrl: NavController,
     public alertCtrl: AlertController,
     public formBuilder: FormBuilder,
@@ -95,20 +95,24 @@ export class SaisiePage implements OnInit {
 
   // Fonctions //saisie, startScanning, addPhoto, openLibrary, openCamera
   ngOnInit() {
-    // this.db.getDatabaseState().subscribe(rdy => {
-    //   if (rdy) {
-    //     this.db.getCapteurs().subscribe(capteur => {
-    //       this.capteurInt = capteur;
-    //     })
+    this.db.getDatabaseState().subscribe(rdy => {
+      if (rdy) {
+        this.db.getCapteurs().subscribe(capteur => {
+          this.capteurInt = capteur;
+        })
          
-    //   }
-    // });
+      }
+    });
   }
   addCapteur() {
-    // this.db.addCapteur(this.capteurInt['matricule'],this.capteurInt['emplacement'])
-    // .then(_ => {
-    //   this.capteur = {};
-    // });
+    this.db.addCapteur(this.id_capteur,this.num_emplacement)
+    .then(_ => {
+      this.capteur = {};
+    });
+  }
+
+  loadCapteurs() {
+    this.db.loadCapteurs()
   }
   saisie(values){
     console.log('Id Capteur         : ', this.saisieForm.value.id_capteur);
