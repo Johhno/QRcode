@@ -6,11 +6,6 @@ const routes: Routes = [
   { path: 'home', loadChildren: './home/home.module#HomePageModule'},
   { path: 'signin', loadChildren: './signin/signin.module#SigninPageModule' },
   { path: 'saisie', loadChildren: './saisie/saisie.module#SaisiePageModule' },
-
-
- 
-
-   
 ];
 
 @NgModule({
@@ -20,6 +15,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-
-
-          
+ 
