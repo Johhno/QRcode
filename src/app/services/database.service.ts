@@ -77,7 +77,7 @@ export class DatabaseService {
         this.capteursBS.next(capteurs);
       });
     }
-
+ 
     addCapteur(matricule, emplacement) {
       let data = [matricule, emplacement];
       return this.database.executeSql('INSERT INTO capteur (matricule, emplacement) VALUES (?, ?)', data).then(data => {

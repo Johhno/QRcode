@@ -110,9 +110,10 @@ export class SaisiePage implements OnInit {
       this.capteur = {};
     });
   }
-
+ 
   loadCapteurs() {
-    this.db.loadCapteurs()
+    // this.db.loadCapteurs();
+    console.log(this.);
   }
   saisie(values){
     console.log('Id Capteur         : ', this.saisieForm.value.id_capteur);
