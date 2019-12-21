@@ -20,17 +20,20 @@ import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
-    HttpClientModule,IonicStorageModule
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    HttpClientModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     NativeStorage,
     SQLite,
-    SQLitePorter  
-    //File
+    SQLitePorter
   ],
   bootstrap: [AppComponent]
 })

@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-
+  
   <form [formGroup]="saisieForm">
   <!-- Label ID Capteur -->
     <ion-item>                                                 
@@ -14,7 +14,7 @@
     </ion-item>
     <!-- Message d'erreurs -->
     <div class="validation-errors">                           
-      <ng-container *ngFor="let validation of validation_messages.id_capteur">
+      <ng-container *ngFor="let validation of messagesDeValidation.id_capteur">
         <div class="error-message" *ngIf="saisieForm.get('id_capteur').hasError(validation.type) 
         && (saisieForm.get('id_capteur').dirty || saisieForm.get('id_capteur').touched)">
           {{ validation.message }}
@@ -22,7 +22,7 @@
       </ng-container>
     </div>
 
-<!-- Label Emplacement -->
+    <!-- Label Emplacement -->
     <ion-item>
       <ion-label>N° Emplacement</ion-label>                 
       <!-- <ion-select placeholder="Select One" formControlName="num_emplacement" [(ngModel)]="num_emplacement">
@@ -33,7 +33,7 @@
     </ion-item>
     <!-- Message d'erreurs -->
     <div class="validation-errors">                          
-      <ng-container *ngFor="let validation of validation_messages.num_emplacement">
+      <ng-container *ngFor="let validation of messagesDeValidation.num_emplacement">
         <div class="error-message" *ngIf="saisieForm.get('num_emplacement').hasError(validation.type) 
         && (saisieForm.get('num_emplacement').dirty || saisieForm.get('num_emplacement').touched)">
           {{ validation.message }}
@@ -42,9 +42,9 @@
     </div>
 
     <!-- Boutons -->
-    <ion-button (click)="addCapteur()" [disabled]="!saisieForm.valid" shape="round" size="default" color="primary" expand="block">
+    <ion-button (click)="saveFormData();" [disabled]="!saisieForm.valid" shape="round" size="default" color="primary" expand="block">
       <ion-icon name="create"></ion-icon>
-      Saisie
+      Enregistrer
     </ion-button>
     
     <ion-button (click)="loadCapteurs()" size="default" color="primary" expand="full">
@@ -58,5 +58,8 @@
     </ion-button>
     
   </form>
- 
+ <!-- </div>
+
+  
+</div> -->
 </ion-content>

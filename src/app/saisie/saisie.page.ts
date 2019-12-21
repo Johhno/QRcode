@@ -4,155 +4,175 @@ import { NavController, Platform, AlertController } from '@ionic/angular';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Router } from '@angular/router';
-
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';           
-import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
-
-// import { File } from '@ionic-native/file';
 import { Storage } from '@ionic/storage';
-import { DatabaseService, CapteurInterface } from '../services/database.service';
-import { Observable } from 'rxjs';
+
+
+interface EntityRecord {
+  numCapteur: string;
+  numEmplacement: string;
+}
+
+type BodyVisibilityValues = '1' | '0';
+
 @Component({
   selector: 'app-saisie',
   templateUrl: './saisie.page.html',
   styleUrls: ['./saisie.page.scss'],
 })
+export class SaisiePage {
+  qrScan: any;
 
-export class SaisiePage implements OnInit {
-  qrScan:any;
-  id_capteur : string = "";
-  num_emplacement : string = "";
   saisieForm: FormGroup;
-  regex: string = "^(?:@[a-zA-Z0-9][a-zA-Z0-9]*/)?[a-zA-Z0-9][a-zA-Z0-9]*$";
-  capteurInt: CapteurInterface[] = [];
-
-  capteur = {};
-  emplacement = {};
+  messagesDeValidation: any;
+  id_capteur: string;
+  num_emplacement: string;
 
   constructor(
     private router: Router,
-    private sqlite: SQLite,
-    private sqlitePorter: SQLitePorter,
-    //private storage: Storage,
-    //private file: File,
-    //private stateLine: string = "",
+    private storage: Storage,
     public navCtrl: NavController,
     public alertCtrl: AlertController,
     public formBuilder: FormBuilder,
     public qr: QRScanner,
     public dialog: Dialogs,
-    public platform: Platform,
-    private db: DatabaseService
-  ){        
-
-      // Valide Formulaire
-      this.saisieForm = this.formBuilder.group({
-        id_capteur: new FormControl('', Validators.compose([
-          Validators.pattern(this.regex),
-          Validators.required
-        ])) , 
-        num_emplacement: new FormControl('', Validators.required) 
-      });    
-
-      //Désactive scanner quand le button "Retour" est pressé
-      this.platform.backButton.subscribeWithPriority(0,()=>{
-        document.getElementsByTagName("body")[0].style.opacity = "1";
-        this.qrScan.unsubsribe();
-      });
+    public platform: Platform
+  ) {
+    this.initForm();
+    this.initValidationMessages();
   }
 
-  // async storeData(){
-  //    // set a key/value
-  //   this.storage.set('age', '10');
+  ngOnDestroy(): void {
+    this.qrScan.unsubsribe();
+  }
 
-  //   // Or to get a key/value pair
-  //   this.storage.get('val').then((val) => {
-  //     console.log('Your age is', val);
-  //   });
-  // }
+  /**
+   * Initializes the form.
+   */
+  private initForm(): void {
+    this.saisieForm = this.formBuilder.group({
+      id_capteur: ['', this.idCapteurValidators()], 
+      num_emplacement: ['', Validators.required]
+    });    
+  }
 
-  async saisieAlert() {
+  /**
+   * @returns validators for the id capteur field.
+   */
+  private idCapteurValidators(): any {
+    return Validators.compose([
+      Validators.pattern("^(?:@[a-zA-Z0-9][a-zA-Z0-9]*/)?[a-zA-Z0-9][a-zA-Z0-9]*$"),
+      Validators.required
+    ]);
+  }
+
+  /**
+   * Initialize every validation messages of the form.
+   */
+  private initValidationMessages(): void {
+    this.messagesDeValidation = {
+      'id_capteur': [
+        //{ type: 'required', message: 'Identifiant du capteur requis.' },
+        //{ type: 'pattern', message: 'Le format doit être alphnumériques.' }
+      ],
+      'num_emplacement': [
+        //{ type: 'required', message: 'Emplacement requis.' }
+      ]
+    };
+  }
+
+  /**
+   * @returns an alert informing the user that data have been saved successfully.
+   */
+  async presentSuccessfullySavedData(): Promise<void> {
     const alert = await this.alertCtrl.create({
       header: 'Alert',
       subHeader: '',
-      message: 'This is an alert message.',
+      message: 'Les données ont été sauvegardées avec succès.',
       buttons: ['OK']
     });
 
     await alert.present();
   }
 
-  // Message d'erreurs
-  validation_messages = {
-    'id_capteur': [
-      //{ type: 'required', message: 'Identifiant du capteur requis.' },
-      //{ type: 'pattern', message: 'Le format doit être alphnumériques.' }
-    ],
-    'num_emplacement': [
-      //{ type: 'required', message: 'Emplacement requis.' }
-    ],
-  };
+  /**
+   * Saves user inputs into the database.
+   */
+  saveFormData(): void {
+    if (this.saisieForm.invalid) {
+      // TODO: Display warning message for the user.
+      return;
+    }
 
-  // Fonctions //saisie, startScanning, addPhoto, openLibrary, openCamera
-  ngOnInit() {
-    this.db.getDatabaseState().subscribe(rdy => {
-      if (rdy) {
-        this.db.getCapteurs().subscribe(capteur => {
-          this.capteurInt = capteur;
-        })
-         
-      }
-    });
+    const newEntityRecord: EntityRecord = {
+      numCapteur: this.saisieForm.value.id_capteur,
+      numEmplacement: this.saisieForm.value.num_emplacement
+    };
+
+    this.saveEntityLine(newEntityRecord);
+    this.onSuccessfulRecordSave();
   }
-  addCapteur() {
-    this.db.addCapteur(this.id_capteur,this.num_emplacement)
-    .then(_ => {
-      this.capteur = {};
-    });
-  }
- 
-  loadCapteurs() {
-    // this.db.loadCapteurs();
-    console.log(this.);
-  }
-  saisie(values){
-    console.log('Id Capteur         : ', this.saisieForm.value.id_capteur);
-    console.log('Numéro Emplacement : ', this.saisieForm.value.num_emplacement);
-    this.saisieAlert();
+
+  /**
+   * Runs when we have successfully save an entity record.
+   */
+  private onSuccessfulRecordSave(): void {
+    this.presentSuccessfullySavedData();
     this.router.navigate(["/home"]);
   }
 
-  startScanning(){
+  /**
+   * Saves a new record.
+   *
+   * @param record The record to save.
+   */
+  private async saveEntityLine(record: EntityRecord): Promise<void> {
+    await this.storage.set(record.numCapteur, record);
+    console.log(await this.storage.get(record.numCapteur));
+  }
+
+  private toggleBodyVisibility(val: BodyVisibilityValues): void {
+    document.getElementsByTagName("body")[0].style.opacity = val;
+  }
+
+  /**
+   * TODO: complete this comment.
+   */
+  startScanning(): void {
     this.qr.prepare()
-    
-    .then((status:QRScannerStatus)=>{
-      if(status.authorized)
-      {
-        //Autorisé
+    .then((status:QRScannerStatus) => {
+      if (status.authorized) {
         this.qr.scan();
-        this.qr.show( );
-        document.getElementsByTagName("body")[0].style.opacity = "0";
-        this.qrScan = this.qr.scan().subscribe(
-            (textFound)=>
-            {
-              document.getElementsByTagName("body")[0].style.opacity = "1";                                            
-              this.id_capteur = textFound ;
-              if(this.id_capteur != ""){
-                this.qrScan.hide(); //hide camera preview
-                this.qrScan.unsubsribe();  
-              }
-            },
-            (err)=>{
-              this.dialog.alert(JSON.stringify(err))
-            })
+        this.qr.show();
+
+        this.toggleBodyVisibility('0');
+
+        this.qrScan = this.qr.scan().subscribe(this.onScanSuccess(), this.onScanError());
       }
-       else if(status.denied)
-      {
+       else if (status.denied) {
         console.log("Accès Caméra refusé");
       }
-       else{
+      else {
         //Camera refusé mais peut demander l'accès plus tard
+        // TODO: demander permission à l'utilisateur
       }
-    })
+    });
+  }
+
+  private onScanSuccess(): (res) => void {
+    return (textFound) => {
+      this.toggleBodyVisibility('1');
+
+      if (this.id_capteur != "") {
+        this.id_capteur = textFound;
+        this.qrScan.hide();
+        this.qrScan.unsubsribe();  
+      }
+    }
+  }
+
+  private onScanError(): (err) => void {
+    return (err) => {
+      this.dialog.alert(JSON.stringify(err));
+    };
   }
 }
