@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NavController, Platform, AlertController } from '@ionic/angular';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
-
 
 interface EntityRecord {
   numCapteur: string;
@@ -30,7 +29,7 @@ export class SaisiePage {
   constructor(
     private router: Router,
     private storage: Storage,
-    public navCtrl: NavController,
+    //public navCtrl: NavController,
     public alertCtrl: AlertController,
     public formBuilder: FormBuilder,
     public qr: QRScanner,
@@ -81,6 +80,43 @@ export class SaisiePage {
   }
 
   /**
+   * Saves user inputs into the database.
+   */
+  saveFormData(): void {
+    if (this.saisieForm.invalid) {
+      // TODO: Display warning message for the user.
+      alert('Échec Sauvegarde des données')
+      return;
+    }
+    
+    const newEntityRecord: EntityRecord = {
+      numCapteur: this.id_capteur,
+      numEmplacement: this.num_emplacement
+    };
+
+    this.saveEntityLine(newEntityRecord);
+    this.onSuccessfulRecordSave();
+  }
+
+  /**
+   * Saves a new record.
+   *
+   * @param record The record to save.
+   */
+  private async saveEntityLine(record: EntityRecord): Promise<void> {
+    await this.storage.set(record.numCapteur, record);
+    //console.log(await this.storage.get(record.numCapteur));
+  }
+  
+  /**
+   * Runs when we have successfully save an entity record.
+   */
+  private onSuccessfulRecordSave(): void {
+    this.presentSuccessfullySavedData();
+    this.router.navigate(["/saisie"]);
+  }
+
+  /**
    * @returns an alert informing the user that data have been saved successfully.
    */
   async presentSuccessfullySavedData(): Promise<void> {
@@ -94,39 +130,21 @@ export class SaisiePage {
     await alert.present();
   }
 
-  /**
-   * Saves user inputs into the database.
-   */
-  saveFormData(): void {
-    if (this.saisieForm.invalid) {
-      // TODO: Display warning message for the user.
-      return;
-    }
-
-    const newEntityRecord: EntityRecord = {
-      numCapteur: this.saisieForm.value.id_capteur,
-      numEmplacement: this.saisieForm.value.num_emplacement
-    };
-
-    this.saveEntityLine(newEntityRecord);
-    this.onSuccessfulRecordSave();
+  getData(): void{
+    this.getEntityLine();
   }
-
   /**
-   * Runs when we have successfully save an entity record.
-   */
-  private onSuccessfulRecordSave(): void {
-    this.presentSuccessfullySavedData();
-    this.router.navigate(["/home"]);
-  }
-
-  /**
-   * Saves a new record.
+   * Get records.
    *
-   * @param record The record to save.
+   * @param record The record to get.
    */
-  private async saveEntityLine(record: EntityRecord): Promise<void> {
-    await this.storage.set(record.numCapteur, record);
+  private async getEntityLine(record: EntityRecord): Promise<void> {
+    // for(let i = 0 ; i<record.length ; i++){
+
+    // }
+    // await this.storage.get(record.numCapteur, record);
+    // console.log(await this.storage.get(record.numCapteur));
+
     console.log(await this.storage.get(record.numCapteur));
   }
 
@@ -135,7 +153,7 @@ export class SaisiePage {
   }
 
   /**
-   * TODO: complete this comment.
+   * Débute le scan
    */
   startScanning(): void {
     this.qr.prepare()

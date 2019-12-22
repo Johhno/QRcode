@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Platform , AlertController } from '@ionic/angular';
-import {Dialogs} from '@ionic-native/dialogs/ngx';
+import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,7 +14,7 @@ export class SigninPage implements OnInit {
   login : string = "";
   password : string = "";
   signinForm: FormGroup;
-  regex: string = "^(?:@[a-zA-Z-~][a-zA-Z-._~]*/)?[a-zA-Z-~][a-zA-Z-._~]*$";
+  messagesDeValidation: any;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -22,30 +22,44 @@ export class SigninPage implements OnInit {
     public alertCtrl: AlertController,
     public platform: Platform,
     private router: Router
-    ) {
-      
-      // Valide Formulaire
-      this.signinForm = this.formBuilder.group({
-        login: new FormControl('', Validators.compose([,
-          Validators.pattern(this.regex),
-          Validators.required
-        ])) , 
-        password: new FormControl('', Validators.required)   
-      });
+  ) {
+    this.initForm();
+    this.initValidationMessages();
   }
 
-   // Message d'erreurs
-  validation_messages = {
-    'login': [
-      { type: 'required', message: 'Login requis.' },
-      { type: 'pattern', message: 'Veuillez taper uniquement des lettres.' }
-    ],
-    'password': [
-      { type: 'required', message: 'Password requis.' }
-    ],
-  };
+  private initForm(): void {
+    this.signinForm = this.formBuilder.group({
+      login: ['', this.loginValidators()], 
+      password: ['', Validators.required]
+    });
+  }
 
-  // Fonctions
+  /**
+   * @returns validators for the login field.
+   */ 
+  private loginValidators(): any {
+    return Validators.compose([,
+      Validators.pattern("^(?:@[a-zA-Z-~][a-zA-Z-._~]*/)?[a-zA-Z-~][a-zA-Z-._~]*$"),
+      Validators.required
+    ]);
+  }
+
+  /**
+   * Initialize every validation messages of the form.
+   */
+
+  private initValidationMessages(): void {
+    this.messagesDeValidation = {
+      'login': [
+        //{ type: 'required', message: 'Identifiant du capteur requis.' },
+        //{ type: 'pattern', message: 'Le format doit être alphnumériques.' }
+      ],
+      'password': [
+        //{ type: 'required', message: 'Emplacement requis.' }
+      ]
+    };
+  }
+  
   ngOnInit() {
   }
 
@@ -55,6 +69,7 @@ export class SigninPage implements OnInit {
     this.signinAlert();
     this.router.navigate(["/saisie"]);
   }
+  
   async signinAlert() {
     const alert = await this.alertCtrl.create({
       header: 'Alert',
