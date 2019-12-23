@@ -20,10 +20,9 @@ type BodyVisibilityValues = '1' | '0';
 })
 export class SaisiePage {
   qrScan: any;
-
   saisieForm: FormGroup;
   messagesDeValidation: any;
-  id_capteur: string;
+  num_capteur: string;
   num_emplacement: string;
 
   constructor(
@@ -49,7 +48,7 @@ export class SaisiePage {
    */
   private initForm(): void {
     this.saisieForm = this.formBuilder.group({
-      id_capteur: ['', this.idCapteurValidators()], 
+      num_capteur: ['', this.idCapteurValidators()], 
       num_emplacement: ['', Validators.required]
     });    
   }
@@ -69,7 +68,7 @@ export class SaisiePage {
    */
   private initValidationMessages(): void {
     this.messagesDeValidation = {
-      'id_capteur': [
+      'num_capteur': [
         //{ type: 'required', message: 'Identifiant du capteur requis.' },
         //{ type: 'pattern', message: 'Le format doit être alphnumériques.' }
       ],
@@ -90,7 +89,7 @@ export class SaisiePage {
     }
     
     const newEntityRecord: EntityRecord = {
-      numCapteur: this.id_capteur,
+      numCapteur: this.num_capteur,
       numEmplacement: this.num_emplacement
     };
 
@@ -131,7 +130,7 @@ export class SaisiePage {
   }
 
   getData(): void{
-    this.getEntityLine();
+    //this.getEntityLine();
   }
   /**
    * Get records.
@@ -180,8 +179,8 @@ export class SaisiePage {
     return (textFound) => {
       this.toggleBodyVisibility('1');
 
-      if (this.id_capteur != "") {
-        this.id_capteur = textFound;
+      if (this.num_capteur != "") {
+        this.num_capteur = textFound;
         this.qrScan.hide();
         this.qrScan.unsubsribe();  
       }

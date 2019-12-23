@@ -21,14 +21,14 @@
   <form [formGroup]="saisieForm">
   <!-- Label ID Capteur -->
     <ion-item>                                                 
-      <ion-label floating color="primary">ID Capteur</ion-label>
-      <ion-input type="text" formControlName="id_capteur" [(ngModel)]="id_capteur"></ion-input>
+      <ion-label floating color="primary">N° Capteur</ion-label>
+      <ion-input type="text" formControlName="num_capteur" [(ngModel)]="num_capteur"></ion-input>
     </ion-item>
     <!-- Message d'erreurs -->
     <div class="validation-errors">                           
-      <ng-container *ngFor="let validation of messagesDeValidation.id_capteur">
-        <div class="error-message" *ngIf="saisieForm.get('id_capteur').hasError(validation.type) 
-        && (saisieForm.get('id_capteur').dirty || saisieForm.get('id_capteur').touched)">
+      <ng-container *ngFor="let validation of messagesDeValidation.num_capteur">
+        <div class="error-message" *ngIf="saisieForm.get('num_capteur').hasError(validation.type) 
+        && (saisieForm.get('num_capteur').dirty || saisieForm.get('num_capteur').touched)">
           {{ validation.message }}
         </div>
       </ng-container>
