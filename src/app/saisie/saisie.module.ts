@@ -6,6 +6,7 @@ import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import { IonicModule } from '@ionic/angular';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { SaisiePage } from './saisie.page';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -13,10 +14,11 @@ const routes: Routes = [
     component: SaisiePage
   }
 ];
-
+ 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     IonicModule,
     RouterModule.forChild(routes)

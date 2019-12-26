@@ -8,7 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-// import { NativeStorage } from '@ionic-native/native-storage/ngx';     
+//import { NativeStorage } from '@ionic-native/native-storage/ngx';     
 
 // import { SQLite } from '@ionic-native/sqlite/ngx';
 // import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
@@ -31,7 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     StatusBar,
     SplashScreen,
-    // NativeStorage,
+    //NativeStorage,
     // SQLite,
     // SQLitePorter
   ],

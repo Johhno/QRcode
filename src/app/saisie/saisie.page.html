@@ -4,8 +4,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <!-- <ion-segment [(ngModel)]="selectedView">
+ <ion-content class="ion-padding">
+   <ion-segment [(ngModel)]="selectedView">
     <ion-segment-button value="saisieSegment">
       <ion-label>Saisie</ion-label>
     </ion-segment-button>
@@ -15,9 +15,10 @@
     <ion-segment-button value="historySegment">
       <ion-label>Historique</ion-label>
     </ion-segment-button>
+  </ion-segment> 
 
-    <div [ngSwitch]="selectedView">
-      <div *ngSwitchCase="'saisieSegment'"> -->
+     <div [ngSwitch]="selectedView">
+      <div *ngSwitchCase="'saisieSegment'">    
   <form [formGroup]="saisieForm">
   <!-- Label ID Capteur -->
     <ion-item>                                                 
@@ -70,8 +71,37 @@
     </ion-button>
     
   </form>
- <!-- </div>
-
+ </div>
+ <div *ngSwitchCase="'updateSegment'"></div>
   
-</div> -->
+ <div *ngSwitchCase="'historySegment'">
+  <ion-grid>
+
+    <ion-row>
+      <ion-col>
+        <div>
+          Date d'ajout
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          Capteur
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          Emplacement
+        </div>
+      </ion-col>
+
+      <ion-col>
+        <div>
+          Responsable
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid> 
+
+ </div>
+</div>  
 </ion-content>
