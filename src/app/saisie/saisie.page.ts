@@ -141,10 +141,14 @@ export class SaisiePage {
     // for(let i = 0 ; i<record.length ; i++){
 
     // }
-    // await this.storage.get(record.numCapteur, record);
-    // console.log(await this.storage.get(record.numCapteur));
-
     console.log(await this.storage.get(record.numCapteur));
+  }
+
+  private async getEntityLines(): Promise<void> {
+    // for(let i = 0 ; i<record.length ; i++){
+      this.getEntityLine();
+    // }
+    
   }
 
   private toggleBodyVisibility(val: BodyVisibilityValues): void {
