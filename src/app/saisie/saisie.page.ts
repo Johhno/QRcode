@@ -143,14 +143,14 @@ export class SaisiePage {
     // }
     console.log(await this.storage.get(record.numCapteur));
   }
-
+/*
   private async getEntityLines(): Promise<void> {
     // for(let i = 0 ; i<record.length ; i++){
       this.getEntityLine();
     // }
     
   }
-
+*/
   private toggleBodyVisibility(val: BodyVisibilityValues): void {
     document.getElementsByTagName("body")[0].style.opacity = val;
   }
