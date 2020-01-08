@@ -24,6 +24,7 @@ export class SaisiePage {
   messagesDeValidation: any;
   num_capteur: string;
   num_emplacement: string;
+  recordList: EntityRecord[];
 
   constructor(
     private router: Router,
@@ -37,6 +38,7 @@ export class SaisiePage {
   ) {
     this.initForm();
     this.initValidationMessages();
+    this.recordList = [];
   }
 
   ngOnDestroy(): void {
@@ -44,17 +46,17 @@ export class SaisiePage {
   }
 
   /**
-   * Initializes the form.
+   * Initialise le formulaire.
    */
   private initForm(): void {
     this.saisieForm = this.formBuilder.group({
-      num_capteur: ['', this.idCapteurValidators()], 
+      num_capteur: ['', this.idCapteurValidators()],
       num_emplacement: ['', Validators.required]
-    });    
+    });
   }
 
   /**
-   * @returns validators for the id capteur field.
+   * @returns validateurs du champs "num_capteur".
    */
   private idCapteurValidators(): any {
     return Validators.compose([
@@ -64,7 +66,7 @@ export class SaisiePage {
   }
 
   /**
-   * Initialize every validation messages of the form.
+   * Initialise chaque message de validation du formulaire.
    */
   private initValidationMessages(): void {
     this.messagesDeValidation = {
@@ -87,13 +89,16 @@ export class SaisiePage {
       alert('Échec Sauvegarde des données')
       return;
     }
-    
+
     const newEntityRecord: EntityRecord = {
       numCapteur: this.num_capteur,
       numEmplacement: this.num_emplacement
     };
 
-    this.saveEntityLine(newEntityRecord);
+    // put record in array recordList
+      this.recordList.push(newEntityRecord);
+
+    this.saveEntityLine(this.recordList);
     this.onSuccessfulRecordSave();
   }
 
@@ -102,11 +107,25 @@ export class SaisiePage {
    *
    * @param record The record to save.
    */
-  private async saveEntityLine(record: EntityRecord): Promise<void> {
-    await this.storage.set(record.numCapteur, record);
-    //console.log(await this.storage.get(record.numCapteur));
+  private async saveEntityLine(recordList: EntityRecord[]): Promise<void> {
+    console.log('entity record', recordList)
+    await this.storage.set('recordList', recordList);
   }
-  
+
+    getData(): void{
+        let a = this.getEntityLine();
+    }
+    /**
+     * Get records.
+     *
+     * @param record The record to get.
+     */
+    private async getEntityLine(): Promise<void> {
+      let recordList =   await this.storage.get('recordList');
+        console.log('recordList ',recordList);
+    }
+
+
   /**
    * Runs when we have successfully save an entity record.
    */
@@ -129,28 +148,8 @@ export class SaisiePage {
     await alert.present();
   }
 
-  getData(): void{
-    //this.getEntityLine();
-  }
-  /**
-   * Get records.
-   *
-   * @param record The record to get.
-   */
-  private async getEntityLine(record: EntityRecord): Promise<void> {
-    // for(let i = 0 ; i<record.length ; i++){
 
-    // }
-    console.log(await this.storage.get(record.numCapteur));
-  }
-/*
-  private async getEntityLines(): Promise<void> {
-    // for(let i = 0 ; i<record.length ; i++){
-      this.getEntityLine();
-    // }
-    
-  }
-*/
+
   private toggleBodyVisibility(val: BodyVisibilityValues): void {
     document.getElementsByTagName("body")[0].style.opacity = val;
   }
@@ -186,7 +185,7 @@ export class SaisiePage {
       if (this.num_capteur != "") {
         this.num_capteur = textFound;
         this.qrScan.hide();
-        this.qrScan.unsubsribe();  
+        this.qrScan.unsubsribe();
       }
     }
   }
