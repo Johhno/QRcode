@@ -10,10 +10,10 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 //import { NativeStorage } from '@ionic-native/native-storage/ngx';     
 
-// import { SQLite } from '@ionic-native/sqlite/ngx';
-// import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
+import { SQLite } from '@ionic-native/sqlite/ngx';
+import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 
-// import { File } from '@ionic-native/file/ngx';
+
 import { IonicStorageModule } from '@ionic/storage';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -25,15 +25,17 @@ import { HttpClientModule } from '@angular/common/http';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot({
+      name: '__mydb' 
+    })
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     StatusBar,
     SplashScreen,
     //NativeStorage,
-    // SQLite,
-    // SQLitePorter
+    SQLite,
+    SQLitePorter
   ],
   bootstrap: [AppComponent]
 })

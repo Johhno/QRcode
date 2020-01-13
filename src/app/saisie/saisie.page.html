@@ -71,12 +71,12 @@
         </ion-button>
       
       </form>
-  </div>
+    </div>
  
-  <div *ngSwitchCase="'updateSegment'">
+    <div *ngSwitchCase="'updateSegment'">
 
-    <div *ngSwitchCase="'saisieSegment'">    
-      <form [formGroup]="saisieForm">
+        
+      <form [formGroup]="updateForm">
         <!-- Label ID Capteur -->
         <ion-item>                                                 
           <ion-label floating color="primary">N° Capteur</ion-label>
@@ -112,14 +112,9 @@
         </div>
 
         <!-- Boutons -->
-        <ion-button (click)="saveFormData();" [disabled]="!saisieForm.valid" shape="round" size="default" color="primary" expand="block">
+        <ion-button (click)="test()" [disabled]="!saisieForm.valid" shape="round" size="default" color="primary" expand="block">
           <ion-icon name="create"></ion-icon>
-          Enregistrer
-        </ion-button>
-        
-        <ion-button (click)="getEntityLine()" size="default" color="primary" expand="full">
-          <ion-icon name="create"></ion-icon>
-          Get Ligne
+          Mise en Panne
         </ion-button>
     
         <ion-button (click)="startScanning()" expand="full" color="danger" shape="round" size="default" >
@@ -129,13 +124,7 @@
       
       </form>
   </div>
-
-
-
-
-
- </div>
-  
+    
  <div *ngSwitchCase="'historySegment'">
   <ion-grid>
 

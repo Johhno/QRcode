@@ -6,6 +6,10 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 
+import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
+import { HttpClient } from '@angular/common/http';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
+
 interface EntityRecord {
   numCapteur: string;
   numEmplacement: string;
@@ -34,7 +38,10 @@ export class SaisiePage {
     public formBuilder: FormBuilder,
     public qr: QRScanner,
     public dialog: Dialogs,
-    public platform: Platform
+    public platform: Platform,
+    private sqlitePorter: SQLitePorter,
+    private http: HttpClient,
+    private sqlite: SQLite
   ) {
     this.initForm();
     this.initValidationMessages();
@@ -44,7 +51,18 @@ export class SaisiePage {
   ngOnDestroy(): void {
     this.qrScan.unsubsribe();
   }
-
+  // seedDatabase() {
+  //   this.http.get('assets/seed.sql', { responseType: 'text'})
+  //   .subscribe(sql => {
+  //     this.sqlitePorter.importSqlToDb(this.database, sql)
+  //       .then(_ => {
+  //         this.loadDevelopers();
+  //         this.loadProducts();
+  //         this.dbReady.next(true);
+  //       })
+  //       .catch(e => console.error(e));
+  //   });
+  // }
   /**
    * Initialise le formulaire.
    */
@@ -112,19 +130,27 @@ export class SaisiePage {
     await this.storage.set('recordList', recordList);
   }
 
-    getData(): void{
-        let a = this.getEntityLine();
-    }
-    /**
-     * Get records.
-     *
-     * @param record The record to get.
-     */
-    private async getEntityLine(): Promise<void> {
-      let recordList =   await this.storage.get('recordList');
-        console.log('recordList ',recordList);
-    }
+  getData(): void{
+    let a = this.getEntityLine();
+  }
+  /**
+   * Get records.
+   *
+   * @param record The record to get.
+   */
+  private async getEntityLine(): Promise<void> {
+    let recordList =   await this.storage.get('recordList');
+      console.log('recordList',recordList);
+  }
 
+  /**
+   * Set records.
+   *
+   * @param record Set one record.
+   */
+  private async updateEntityLine(recordList: EntityRecord[]): Promise<void> {
+    await this.storage.set('recordList', recordList);
+  }
 
   /**
    * Runs when we have successfully save an entity record.
@@ -148,8 +174,7 @@ export class SaisiePage {
     await alert.present();
   }
 
-
-
+ 
   private toggleBodyVisibility(val: BodyVisibilityValues): void {
     document.getElementsByTagName("body")[0].style.opacity = val;
   }
@@ -195,4 +220,6 @@ export class SaisiePage {
       this.dialog.alert(JSON.stringify(err));
     };
   }
+
+
 }
