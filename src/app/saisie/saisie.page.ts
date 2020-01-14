@@ -29,6 +29,7 @@ export class SaisiePage {
   num_capteur: string;
   num_emplacement: string;
   recordList: EntityRecord[];
+  pages = new Array('900A00','900A01');
 
   constructor(
     private router: Router,
@@ -46,23 +47,16 @@ export class SaisiePage {
     this.initForm();
     this.initValidationMessages();
     this.recordList = [];
+    for (let index = 0; index < this.pages.length; index++) {
+      //any custom logic
+      this.pages['index'] = index;    
+    }
   }
 
   ngOnDestroy(): void {
     this.qrScan.unsubsribe();
   }
-  // seedDatabase() {
-  //   this.http.get('assets/seed.sql', { responseType: 'text'})
-  //   .subscribe(sql => {
-  //     this.sqlitePorter.importSqlToDb(this.database, sql)
-  //       .then(_ => {
-  //         this.loadDevelopers();
-  //         this.loadProducts();
-  //         this.dbReady.next(true);
-  //       })
-  //       .catch(e => console.error(e));
-  //   });
-  // }
+
   /**
    * Initialise le formulaire.
    */
@@ -114,7 +108,7 @@ export class SaisiePage {
     };
 
     // put record in array recordList
-      this.recordList.push(newEntityRecord);
+    this.recordList.push(newEntityRecord);
 
     this.saveEntityLine(this.recordList);
     this.onSuccessfulRecordSave();
@@ -133,6 +127,7 @@ export class SaisiePage {
   getData(): void{
     let a = this.getEntityLine();
   }
+
   /**
    * Get records.
    *
@@ -144,12 +139,15 @@ export class SaisiePage {
   }
 
   /**
-   * Set records.
+   * Set one record.
    *
    * @param record Set one record.
    */
-  private async updateEntityLine(recordList: EntityRecord[]): Promise<void> {
-    await this.storage.set('recordList', recordList);
+  private async updateEntityLine(key: EntityRecord['numCapteur'], value:EntityRecord['numEmplacement']): Promise<void> {
+    let recordList =   await this.storage.get('recordList');
+    console.log('recordList',recordList);
+    console.log('numCapteur',key);console.log('numEmplacement',value);
+    //await this.storage.set('recordList', recordList);
   }
 
   /**
@@ -165,16 +163,15 @@ export class SaisiePage {
    */
   async presentSuccessfullySavedData(): Promise<void> {
     const alert = await this.alertCtrl.create({
-      header: 'Alert',
+      header: 'Succès de l\'enregistrement',
       subHeader: '',
-      message: 'Les données ont été sauvegardées avec succès.',
+      message: 'Les données ont été sauvegardées avec succès.{{num_capteur.value}}',
       buttons: ['OK']
     });
 
     await alert.present();
   }
 
- 
   private toggleBodyVisibility(val: BodyVisibilityValues): void {
     document.getElementsByTagName("body")[0].style.opacity = val;
   }
@@ -203,6 +200,9 @@ export class SaisiePage {
     });
   }
 
+  /**
+   * Met la valeur scanné dans le champs
+   */
   private onScanSuccess(): (res) => void {
     return (textFound) => {
       this.toggleBodyVisibility('1');
@@ -220,6 +220,5 @@ export class SaisiePage {
       this.dialog.alert(JSON.stringify(err));
     };
   }
-
 
 }
