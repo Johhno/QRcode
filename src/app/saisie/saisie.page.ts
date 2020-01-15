@@ -30,7 +30,7 @@ export class SaisiePage {
 
   num_capteur: string;
   num_emplacement: string;
-  etat:string
+  etat:string;
   recordList: EntityRecord[];
 
   pages = new Array('900A00','900A01');
@@ -189,7 +189,8 @@ export class SaisiePage {
   }
 
   /**
-   * @returns an alert informing the user that data have already been save.
+   * Demande si écrasement ou annulation
+   * @returns an alert informing the user that data have already been save. 
    */
   async presentExistedData(): Promise<void> {
     const alert = await this.alertCtrl.create({
