@@ -13,7 +13,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 interface EntityRecord {
   numCapteur: string;
   numEmplacement: string;
-  etat: string
+  etat: string;
 }
 
 type BodyVisibilityValues = '1' | '0';
@@ -33,7 +33,7 @@ export class SaisiePage {
   etat:string;
   recordList: EntityRecord[];
 
-  pages = new Array('900A00','900A01');
+  array_emplacements = new Array('900A00','900A01');
 
   constructor(
     private router: Router,
@@ -51,9 +51,9 @@ export class SaisiePage {
     this.initForm();
     this.initValidationMessages();
     this.recordList = [];
-    for (let index = 0; index < this.pages.length; index++) {
+    for (let index = 0; index < this.array_emplacements.length; index++) {
       //any custom logic
-      this.pages['index'] = index;    
+      this.array_emplacements['index'] = index;    
     }
   }
 
@@ -109,9 +109,9 @@ export class SaisiePage {
     const newEntityRecord: EntityRecord = {
       numCapteur: this.num_capteur,
       numEmplacement: this.num_emplacement,
-      etat:this.etat
+      etat:this.etat = "1"
     };
-
+////
     // put record in array recordList
     this.recordList.push(newEntityRecord);
 
@@ -149,9 +149,8 @@ export class SaisiePage {
    * @param record The record to get.
    */
   private async getEntityLine(): Promise<void> {
-    let recordList =   await this.storage.get('recordList');
-      console.log('recordList',recordList);
-      
+    let recordList = await this.storage.get('recordList');
+    console.log('recordList',recordList);
   }
 
   /**
@@ -160,9 +159,9 @@ export class SaisiePage {
    * @param record Set one record.
    */
   private async updateEntityLine(key: EntityRecord['numCapteur'], value:EntityRecord['numEmplacement']): Promise<void> {
-    let recordList =   await this.storage.get('recordList');
+    let recordList = await this.storage.get('recordList');
     console.log('recordList',recordList);
-    console.log('numCapteur',key);console.log('numEmplacement',value);
+    console.log('numCapteur',this.recordList[key]);console.log('numEmplacement',this.recordList[value]);
     //await this.storage.set('recordList', recordList);
   }
 
@@ -180,9 +179,17 @@ export class SaisiePage {
    */
   async presentSuccessfullySavedData(): Promise<void> {
     const alert = await this.alertCtrl.create({
-      header: 'Succès de l\'enregistrement',
+      
+      header: "Succès de l'enregistrement",
       message: 'Les données ont été sauvegardées avec succès.',
-      buttons: ['OK']
+      buttons: [
+        {
+            text: 'OK',
+            handler: recordList => {
+                console.log(JSON.stringify(recordList)); //to see the object
+            }
+        }
+      ]
     });
 
     await alert.present();
@@ -195,7 +202,7 @@ export class SaisiePage {
   async presentExistedData(): Promise<void> {
     const alert = await this.alertCtrl.create({
       header: 'Données existantes',
-      message: 'Les données ont déjà été sauvegardées. Voulez vous ecraser la sauvegarde?',
+      message: 'Les données ont déjà été sauvegardées. \nVoulez vous écraser la sauvegarde ?',
       buttons: ['Oui','Non']
     });
 
@@ -230,7 +237,7 @@ export class SaisiePage {
   }
 
   /**
-   * Met la valeur scanné dans le champs
+   * Met la valeur scannée dans le champ
    */
   private onScanSuccess(): (res) => void {
     return (textFound) => {

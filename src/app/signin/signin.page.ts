@@ -72,8 +72,7 @@ export class SigninPage implements OnInit {
   
   async signinAlert() {
     const alert = await this.alertCtrl.create({
-      header: 'Alert',
-      subHeader: '',
+      header: 'Connexion',
       message: "Login : " +this.signinForm.value.login+
       "<br/>Password : "+this.signinForm.value.password,
       buttons: ['OK']
