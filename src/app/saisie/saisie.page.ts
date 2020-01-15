@@ -51,14 +51,21 @@ export class SaisiePage {
     this.initForm();
     this.initValidationMessages();
     this.recordList = [];
-    for (let index = 0; index < this.array_emplacements.length; index++) {
-      //any custom logic
-      this.array_emplacements['index'] = index;    
-    }
+    this.initArrayEmplacements();
   }
 
   ngOnDestroy(): void {
     this.qrScan.unsubsribe();
+  }
+
+  /**
+   * @returns instancie tableau d'emplacement".
+   */
+  private initArrayEmplacements(): any {
+    for (let index = 0; index < this.array_emplacements.length; index++) {
+      //any custom logic
+      this.array_emplacements['index'] = index;    
+    }
   }
 
   /**
@@ -80,6 +87,8 @@ export class SaisiePage {
       Validators.required
     ]);
   }
+
+
 
   /**
    * Initialise chaque message de validation du formulaire.
