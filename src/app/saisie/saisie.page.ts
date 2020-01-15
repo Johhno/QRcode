@@ -111,7 +111,7 @@ export class SaisiePage {
       numEmplacement: this.num_emplacement,
       etat:this.etat = "1"
     };
-////
+
     // put record in array recordList
     this.recordList.push(newEntityRecord);
 

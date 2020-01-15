@@ -38,7 +38,7 @@
         <!-- Label Emplacement -->
         <ion-item>
           <ion-label>N° Emplacement</ion-label>                 
-          <ion-select placeholder="Select One" formControlName="num_emplacement" [(ngModel)]="num_emplacement"  >
+          <ion-select placeholder="Select One" formControlName="num_emplacement" [(ngModel)]="num_emplacement">
             <ion-select-option value="emplacement" *ngFor="let index of emplacements" > {{emplacement}} </ion-select-option>     
             
             <!--
