@@ -13,6 +13,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 interface EntityRecord {
   numCapteur: string;
   numEmplacement: string;
+  etat: string
 }
 
 type BodyVisibilityValues = '1' | '0';
@@ -26,9 +27,12 @@ export class SaisiePage {
   qrScan: any;
   saisieForm: FormGroup;
   messagesDeValidation: any;
+
   num_capteur: string;
   num_emplacement: string;
+  etat:string
   recordList: EntityRecord[];
+
   pages = new Array('900A00','900A01');
 
   constructor(
@@ -104,13 +108,16 @@ export class SaisiePage {
 
     const newEntityRecord: EntityRecord = {
       numCapteur: this.num_capteur,
-      numEmplacement: this.num_emplacement
+      numEmplacement: this.num_emplacement,
+      etat:this.etat
     };
 
     // put record in array recordList
     this.recordList.push(newEntityRecord);
 
     this.saveEntityLine(this.recordList);
+
+    //condition : si donnée existante demande ecrasement sinon sauvegarde
     this.onSuccessfulRecordSave();
   }
 
@@ -122,6 +129,14 @@ export class SaisiePage {
   private async saveEntityLine(recordList: EntityRecord[]): Promise<void> {
     console.log('entity record', recordList)
     await this.storage.set('recordList', recordList);
+  }
+
+  /**
+   * Runs when we have successfully save an entity record.
+   */
+  private onSuccessfulRecordSave(): void {
+    this.presentSuccessfullySavedData();
+    this.router.navigate(["/saisie"]);
   }
 
   getData(): void{
@@ -136,6 +151,7 @@ export class SaisiePage {
   private async getEntityLine(): Promise<void> {
     let recordList =   await this.storage.get('recordList');
       console.log('recordList',recordList);
+      
   }
 
   /**
@@ -151,11 +167,12 @@ export class SaisiePage {
   }
 
   /**
-   * Runs when we have successfully save an entity record.
+   * Delete one record.
+   *
+   * @param record Set one record.
    */
-  private onSuccessfulRecordSave(): void {
-    this.presentSuccessfullySavedData();
-    this.router.navigate(["/saisie"]);
+  private async deleteEntityLine(key: EntityRecord['numCapteur'], value:EntityRecord['numEmplacement']): Promise<void> {
+    let recordList =   await this.storage.remove('recordList');
   }
 
   /**
@@ -164,14 +181,25 @@ export class SaisiePage {
   async presentSuccessfullySavedData(): Promise<void> {
     const alert = await this.alertCtrl.create({
       header: 'Succès de l\'enregistrement',
-      subHeader: '',
-      message: 'Les données ont été sauvegardées avec succès.{{num_capteur.value}}',
+      message: 'Les données ont été sauvegardées avec succès.',
       buttons: ['OK']
     });
 
     await alert.present();
   }
 
+  /**
+   * @returns an alert informing the user that data have already been save.
+   */
+  async presentExistedData(): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: 'Données existantes',
+      message: 'Les données ont déjà été sauvegardées. Voulez vous ecraser la sauvegarde?',
+      buttons: ['Oui','Non']
+    });
+
+    await alert.present();
+  }
   private toggleBodyVisibility(val: BodyVisibilityValues): void {
     document.getElementsByTagName("body")[0].style.opacity = val;
   }
