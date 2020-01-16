@@ -58,7 +58,7 @@
           Enregistrer
         </ion-button>
         
-        <ion-button (click)="getEntityLine()" size="default" color="primary" expand="full">
+        <ion-button (click)="getEntityLines()" size="default" color="primary" expand="full">
           <ion-icon name="create"></ion-icon>
           Get Ligne
         </ion-button>
@@ -99,7 +99,7 @@
           <ion-select placeholder="Select One" formControlName="num_emplacement" [(ngModel)]="num_emplacement">
             <ion-select-option value="{{ emplacement }}" *ngFor="let emplacement of array_emplacements" > {{emplacement}} </ion-select-option>
           </ion-select>
-        </ion-item>
+        </ion-item>   
         <!-- Message d'erreurs -->
         <div class="validation-errors">                          
           <ng-container *ngFor="let validation of messagesDeValidation.num_emplacement">

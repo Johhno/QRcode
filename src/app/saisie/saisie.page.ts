@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { NavController, Platform, AlertController } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Router } from '@angular/router';
@@ -39,7 +39,6 @@ export class SaisiePage {
   constructor(
     private router: Router,
     private storage: Storage,
-    //public navCtrl: NavController,
     public alertCtrl: AlertController,
     public formBuilder: FormBuilder,
     public qr: QRScanner,
@@ -60,7 +59,7 @@ export class SaisiePage {
   }
 
   /**
-   * @returns instancie tableau d'emplacement.
+   * @returns instancie tableau d'emplacements.
    */
   private initArrayEmplacements(): any {
     for (let index = 0; index < this.array_emplacements.length; index++) {
@@ -148,15 +147,15 @@ export class SaisiePage {
   }
 
   getData(): void{
-    let a = this.getEntityLine();
+    let a = this.getEntityLines();
   }
 
   /**
    * Get records.
    *
-   * @param record The record to get.
+   * @param record The records to get.
    */
-  private async getEntityLine(): Promise<void> {
+  private async getEntityLines(): Promise<void> {
     let recordList = await this.storage.get('recordList');
     console.log('recordList',recordList);
   }
