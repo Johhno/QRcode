@@ -60,6 +60,11 @@
         
         <ion-button (click)="getEntityLines()" size="default" color="primary" expand="full">
           <ion-icon name="create"></ion-icon>
+          Get Lignes
+        </ion-button>
+
+        <ion-button (click)="getEntityLine()" size="default" color="primary" expand="full">
+          <ion-icon name="create"></ion-icon>
           Get Ligne
         </ion-button>
         <ion-button (click)="updateEntityLine()" size="default" color="primary" expand="full">
@@ -125,8 +130,7 @@
   </div>
     
  <div *ngSwitchCase="'historySegment'">
-  <ion-grid>
-
+  <!-- <ion-grid>
     <ion-row>
       <ion-col>
         <div>
@@ -151,7 +155,13 @@
       </ion-col>
     </ion-row>
   </ion-grid> 
+-->
 
+  <ion-row *ngFor="let aRecord of recordList">
+    <ion-col (click)="showDetails(aRecord);">
+      <h2>{{ aRecord.numCapteur }} - {{ aRecord.numEmplacement }}</h2> </ion-col>
+  </ion-row>
  </div>
+
 </div>  
 </ion-content>

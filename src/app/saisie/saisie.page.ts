@@ -13,7 +13,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 interface EntityRecord {
   numCapteur: string;
   numEmplacement: string;
-  etat: string;
+  //etat: string;
 }
 
 type BodyVisibilityValues = '1' | '0';
@@ -26,6 +26,7 @@ type BodyVisibilityValues = '1' | '0';
 export class SaisiePage {
   qrScan: any;
   saisieForm: FormGroup;
+  updateForm: FormGroup;
   messagesDeValidation: any;
 
   num_capteur: string;
@@ -44,18 +45,37 @@ export class SaisiePage {
     public qr: QRScanner,
     public dialog: Dialogs,
     public platform: Platform,
-    private sqlitePorter: SQLitePorter,
+    //private sqlitePorter: SQLitePorter,
     private http: HttpClient,
     private sqlite: SQLite
   ) {
     this.initForm();
+    this.initFormUpdate();
     this.initValidationMessages();
-    this.recordList = [];
     this.initArrayEmplacements();
+    this.initRecordList();
+  }
+
+  private async initRecordList(): Promise<void> {
+    this.recordList = [];
+    this.recordList = await this.getEntityLines();
   }
 
   ngOnDestroy(): void {
     this.qrScan.unsubsribe();
+  }
+
+  /**
+   * Displays an alert describing the details of the given record.
+   *
+   * @param record The record to show details of.
+   */
+  async showDetails(record: EntityRecord): Promise<void> {
+    const yo = await this.alertCtrl.create({
+      message: 'Le capteur est ' + record.numCapteur + ' et  son emplacement est ' + record.numEmplacement
+    });
+
+    await yo.present();
   }
 
   /**
@@ -76,6 +96,13 @@ export class SaisiePage {
       num_capteur: ['', this.idCapteurValidators()],
       num_emplacement: ['', Validators.required]
     });
+  }
+
+  private initFormUpdate(): void {
+    /*this.updateForm = this.formBuilder.group({
+      num_capteur: ['', this.idCapteurValidators()],
+      num_emplacement: ['', Validators.required]
+    });*/
   }
 
   /**
@@ -116,13 +143,15 @@ export class SaisiePage {
     const newEntityRecord: EntityRecord = {
       numCapteur: this.num_capteur,
       numEmplacement: this.num_emplacement,
-      etat:this.etat = "1"
+      //etat:this.etat = "1"
     };
 
     // put record in array recordList
     this.recordList.push(newEntityRecord);
 
     this.saveEntityLine(this.recordList);
+
+    console.log(this.recordList)
 
     //condition : si donnée existante demande ecrasement sinon sauvegarde
     this.onSuccessfulRecordSave();
@@ -134,7 +163,7 @@ export class SaisiePage {
    * @param record The record to save.
    */
   private async saveEntityLine(recordList: EntityRecord[]): Promise<void> {
-    console.log('entity record', recordList)
+    console.log('entityRecord', recordList)
     await this.storage.set('recordList', recordList);
   }
 
@@ -146,20 +175,25 @@ export class SaisiePage {
     this.router.navigate(["/saisie"]);
   }
 
-  getData(): void{
-    let a = this.getEntityLines();
+  /**
+   * Get recordS.
+   *
+   * @param record The recordS to get.
+   */
+  private async getEntityLines(): Promise<EntityRecord[]> {
+    const recordList = await this.storage.get('recordList');
+    //return await this.storage.get('recordList');
+    console.log('recordList from storage', recordList);
+
+    return recordList;
   }
 
-  /**
-   * Get records.
-   *
-   * @param record The records to get.
-   */
-  private async getEntityLines(): Promise<void> {
-    let recordList = await this.storage.get('recordList');
+
+  private async getEntityLine(): Promise<void> {
+    let recordList = await this.storage.get('recordList[1]');
+    //return await this.storage.get('recordList');
     console.log('recordList',recordList);
   }
-
   /**
    * Set one record.
    *
@@ -193,7 +227,7 @@ export class SaisiePage {
         {
             text: 'OK',
             handler: recordList => {
-                console.log(JSON.stringify(recordList)); //to see the object
+                //console.log(JSON.stringify(recordList)); //to see the object
             }
         }
       ]
