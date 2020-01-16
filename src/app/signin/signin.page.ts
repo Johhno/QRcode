@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 })
 
 export class SigninPage implements OnInit {
-  login : string = "";
-  password : string = "";
+  login : string;
+  password : string;
   signinForm: FormGroup;
   messagesDeValidation: any;
 

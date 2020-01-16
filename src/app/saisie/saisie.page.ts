@@ -31,7 +31,7 @@ export class SaisiePage {
 
   num_capteur: string;
   num_emplacement: string;
-  etat:string;
+  etat: string;
   recordList: EntityRecord[];
   array_emplacements = new Array('900A00','900A01','900A02','900A03','900A04','900A05','900A06','900A07','900A08','900A09','900A10','900A11','900A12','900A13','900A14',
   '900A15','900A16','900A17','900A18','900A19','900A20','900A21','900A22','900A23','900A24','900A25','900A26','900A27','900A28','900A29','900A30','900A31','900A32',
