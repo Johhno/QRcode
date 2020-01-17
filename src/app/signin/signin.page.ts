@@ -24,16 +24,15 @@ export class SigninPage implements OnInit {
     private router: Router
   ) {
     this.initForm();
-    this.initValidationMessages();
   }
 
-  private initForm(): void {
+   private initForm(): void {
     this.signinForm = this.formBuilder.group({
       login: ['', this.loginValidators()], 
       password: ['', Validators.required]
     });
   }
-
+ 
   /**
    * @returns validators for the login field.
    */ 
@@ -59,9 +58,6 @@ export class SigninPage implements OnInit {
       ]
     };
   }
-  
-  ngOnInit() {
-  }
 
   signin(values){
     console.log('Login    : ', this.signinForm.value.login);
@@ -80,4 +76,8 @@ export class SigninPage implements OnInit {
 
     await alert.present();
   }
+  
+  ngOnInit() {
+  }
+ 
 }

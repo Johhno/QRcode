@@ -60,11 +60,6 @@
         
         <ion-button (click)="getEntityLines()" size="default" color="primary" expand="full">
           <ion-icon name="create"></ion-icon>
-          Get Lignes
-        </ion-button>
-
-        <ion-button (click)="getEntityLine()" size="default" color="primary" expand="full">
-          <ion-icon name="create"></ion-icon>
           Get Ligne
         </ion-button>
         <ion-button (click)="updateEntityLine()" size="default" color="primary" expand="full">
@@ -81,53 +76,64 @@
  
     <div *ngSwitchCase="'updateSegment'">
 
+      <!-- 
+     <form [formGroup]="updateForm">
         
-      <form [formGroup]="updateForm">
-        <!-- Label ID Capteur -->
-        <ion-item>                                                 
-          <ion-label floating color="primary">N° Capteur</ion-label>
-          <ion-input type="text" formControlName="num_capteur" [(ngModel)]="num_capteur"></ion-input>
-        </ion-item>
-        <!-- Message d'erreurs -->
-        <div class="validation-errors">                           
-          <ng-container *ngFor="let validation of messagesDeValidation.num_capteur">
-            <div class="error-message" *ngIf="saisieForm.get('num_capteur').hasError(validation.type) 
-            && (saisieForm.get('num_capteur').dirty || saisieForm.get('num_capteur').touched)">
-              {{ validation.message }}
-            </div>
-          </ng-container>
-        </div>
+       <ion-item>                                                 
+         <ion-label floating color="primary">N° Capteur</ion-label>
+         <ion-input type="text" formControlName="num_capteur" [(ngModel)]="num_capteur"></ion-input>
+       </ion-item>
+       
+       <div class="validation-errors">                           
+         <ng-container *ngFor="let validation of messagesDeValidation.num_capteur">
+           <div class="error-message" *ngIf="saisieForm.get('num_capteur').hasError(validation.type) 
+           && (saisieForm.get('num_capteur').dirty || saisieForm.get('num_capteur').touched)">
+             {{ validation.message }}
+           </div>
+         </ng-container>
+       </div>
 
-        <!-- Label Emplacement -->
-        <ion-item>
-          <ion-label>N° Emplacement</ion-label>                 
-          <ion-select placeholder="Select One" formControlName="num_emplacement" [(ngModel)]="num_emplacement">
-            <ion-select-option value="{{ emplacement }}" *ngFor="let emplacement of array_emplacements" > {{emplacement}} </ion-select-option>
-          </ion-select>
-        </ion-item>   
-        <!-- Message d'erreurs -->
-        <div class="validation-errors">                          
-          <ng-container *ngFor="let validation of messagesDeValidation.num_emplacement">
-            <div class="error-message" *ngIf="saisieForm.get('num_emplacement').hasError(validation.type) 
-            && (saisieForm.get('num_emplacement').dirty || saisieForm.get('num_emplacement').touched)">
-              {{ validation.message }}
-            </div>
-          </ng-container>
-        </div>
+        
+       <ion-item>
+         <ion-label>N° Emplacement</ion-label>                 
+         <ion-select placeholder="Select One" formControlName="num_emplacement" [(ngModel)]="num_emplacement">
+           <ion-select-option value="{{ emplacement }}" *ngFor="let emplacement of array_emplacements" > {{emplacement}} </ion-select-option>
+         </ion-select>
+       </ion-item>   
+        
+       <div class="validation-errors">                          
+         <ng-container *ngFor="let validation of messagesDeValidation.num_emplacement">
+           <div class="error-message" *ngIf="saisieForm.get('num_emplacement').hasError(validation.type) 
+           && (saisieForm.get('num_emplacement').dirty || saisieForm.get('num_emplacement').touched)">
+             {{ validation.message }}
+           </div>
+         </ng-container>
+       </div>
 
-        <!-- Boutons -->
-        <ion-button (click)="test()" [disabled]="!saisieForm.valid" shape="round" size="default" color="primary" expand="block">
-          <ion-icon name="create"></ion-icon>
-          Mise en Panne
-        </ion-button>
-    
-        <ion-button (click)="startScanning()" expand="full" color="danger" shape="round" size="default" >
-          <ion-icon name="camera" slot="start"></ion-icon>
-          QRCode
-        </ion-button>
-      
-      </form>
-  </div>
+       <ion-button (click)="startScanning()" expand="full" color="danger" shape="round" size="default" >
+         <ion-icon name="camera" slot="start"></ion-icon>
+         QRCode
+       </ion-button>
+     
+     </form>
+-->
+     <ion-row *ngFor="let aRecord of recordList">
+       <ion-col (click)="showDetails(aRecord);">
+         <h2>{{ aRecord.numCapteur }} - {{ aRecord.numEmplacement }}</h2> 
+         <ion-button (click)="updateEntityLine()" [disabled]="!saisieForm.valid" shape="round" size="default" color="primary" expand="block">
+           <ion-icon name="create"></ion-icon>
+           uPDATE
+         </ion-button>
+         <ion-button (click)="deleteEntityLine()" [disabled]="!saisieForm.valid" shape="round" size="default" color="primary" expand="block">
+           <ion-icon name="create"></ion-icon>
+           delete
+         </ion-button>
+       </ion-col>
+
+   
+   
+     </ion-row>
+ </div>
     
  <div *ngSwitchCase="'historySegment'">
   <!-- <ion-grid>

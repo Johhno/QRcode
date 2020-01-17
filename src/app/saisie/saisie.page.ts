@@ -61,6 +61,19 @@ export class SaisiePage {
     this.recordList = await this.getEntityLines();
   }
 
+  /**
+   * Get recordS.
+   *
+   * @param record The recordS to get.
+   */
+  private async getEntityLines(): Promise<EntityRecord[]> {
+    const recordList = await this.storage.get('recordList');
+    //return await this.storage.get('recordList');
+    console.log('recordList from storage', recordList);
+
+    return recordList;
+  }
+
   ngOnDestroy(): void {
     this.qrScan.unsubsribe();
   }
@@ -72,7 +85,8 @@ export class SaisiePage {
    */
   async showDetails(record: EntityRecord): Promise<void> {
     const yo = await this.alertCtrl.create({
-      message: 'Le capteur est ' + record.numCapteur + ' et  son emplacement est ' + record.numEmplacement
+      message: 'Le capteur est ' + record.numCapteur + ' et  son emplacement est ' + record.numEmplacement,
+      buttons: ['OK']
     });
 
     await yo.present();
@@ -146,6 +160,8 @@ export class SaisiePage {
       //etat:this.etat = "1"
     };
 
+    //parcours le tableau et cherche si le capteur a déjà été enregistré
+
     // put record in array recordList
     this.recordList.push(newEntityRecord);
 
@@ -159,7 +175,7 @@ export class SaisiePage {
 
   /**
    * Saves a new record.
-   *
+   *recordList
    * @param record The record to save.
    */
   private async saveEntityLine(recordList: EntityRecord[]): Promise<void> {
@@ -172,47 +188,29 @@ export class SaisiePage {
    */
   private onSuccessfulRecordSave(): void {
     this.presentSuccessfullySavedData();
+    this.num_capteur = "";
+    this.num_emplacement = "";
     this.router.navigate(["/saisie"]);
   }
 
-  /**
-   * Get recordS.
-   *
-   * @param record The recordS to get.
-   */
-  private async getEntityLines(): Promise<EntityRecord[]> {
-    const recordList = await this.storage.get('recordList');
-    //return await this.storage.get('recordList');
-    console.log('recordList from storage', recordList);
-
-    return recordList;
-  }
 
 
-  private async getEntityLine(): Promise<void> {
-    let recordList = await this.storage.get('recordList[1]');
-    //return await this.storage.get('recordList');
-    console.log('recordList',recordList);
-  }
   /**
    * Set one record.
    *
    * @param record Set one record.
    */
-  private async updateEntityLine(key: EntityRecord['numCapteur'], value:EntityRecord['numEmplacement']): Promise<void> {
-    let recordList = await this.storage.get('recordList');
-    console.log('recordList',recordList);
-    console.log('numCapteur',this.recordList[key]);console.log('numEmplacement',this.recordList[value]);
-    //await this.storage.set('recordList', recordList);
+  private async updateEntityLine(record: EntityRecord): Promise<void> {
+
   }
 
   /**
    * Delete one record.
    *
-   * @param record Set one record.
+   * @param record Delete one record.
    */
-  private async deleteEntityLine(key: EntityRecord['numCapteur'], value:EntityRecord['numEmplacement']): Promise<void> {
-    let recordList = await this.storage.remove('recordList');
+  private async deleteEntityLine(record: EntityRecord): Promise<void> {
+    
   }
 
   /**
@@ -227,7 +225,7 @@ export class SaisiePage {
         {
             text: 'OK',
             handler: recordList => {
-                //console.log(JSON.stringify(recordList)); //to see the object
+                
             }
         }
       ]
