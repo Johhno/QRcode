@@ -67,11 +67,11 @@ export class SaisiePage {
    * @param record The recordS to get.
    */
   private async getEntityLines(): Promise<EntityRecord[]> {
-    const recordList = await this.storage.get('recordList');
+    const recordListFromStorage = await this.storage.get('recordList') ;
     //return await this.storage.get('recordList');
-    console.log('recordList from storage', recordList);
+    console.log('recordList from storage', recordListFromStorage);
 
-    return recordList;
+    return recordListFromStorage ? recordListFromStorage : [] ;
   }
 
   ngOnDestroy(): void {
@@ -161,8 +161,9 @@ export class SaisiePage {
     };
 
     //parcours le tableau et cherche si le capteur a déjà été enregistré
-
     // put record in array recordList
+
+    console.log(this.recordList)
     this.recordList.push(newEntityRecord);
 
     this.saveEntityLine(this.recordList);
