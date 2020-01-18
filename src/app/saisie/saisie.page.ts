@@ -68,7 +68,6 @@ export class SaisiePage {
    */
   private async getEntityLines(): Promise<EntityRecord[]> {
     const recordListFromStorage = await this.storage.get('recordList') ;
-    //return await this.storage.get('recordList');
     console.log('recordList from storage', recordListFromStorage);
 
     return recordListFromStorage ? recordListFromStorage : [] ;
@@ -201,8 +200,14 @@ export class SaisiePage {
    *
    * @param record Set one record.
    */
-  private async updateEntityLine(record: EntityRecord): Promise<void> {
+  private updateEntityLine(index,capteur : any, emplacement : any) {
+          //chercher par index
+          this.recordList[index].numCapteur = capteur;
+          this.recordList[index].numEmplacement = emplacement;
 
+          // TODO : utliser un service pour le storage
+
+          this.storage.set('recordList',this.recordList)
   }
 
   /**
@@ -210,8 +215,10 @@ export class SaisiePage {
    *
    * @param record Delete one record.
    */
-  private async deleteEntityLine(record: EntityRecord): Promise<void> {
-    
+  private  deleteEntityLine(index) {
+    this.recordList.splice(index,1)
+ // TODO : utliser un service pour le storage
+    this.storage.set('recordList',this.recordList)
   }
 
   /**
