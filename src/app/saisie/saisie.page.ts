@@ -220,7 +220,7 @@ export class SaisiePage {
     const alert = await this.alertCtrl.create({
       
       header: "Succès de l'enregistrement",
-      message: 'Les données ont été sauvegardées avec succès.',
+      message: 'Le QR Code '+ this.num_capteur + 'est correctement lié à l\'emplacement' + this.num_emplacement,
       buttons: [
         {
             text: 'OK',

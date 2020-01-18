@@ -24,6 +24,7 @@ export class SigninPage implements OnInit {
     private router: Router
   ) {
     this.initForm();
+    this.initValidationMessages();
   }
 
    private initForm(): void {
@@ -69,14 +70,14 @@ export class SigninPage implements OnInit {
   async signinAlert() {
     const alert = await this.alertCtrl.create({
       header: 'Connexion',
-      message: "Login : " +this.signinForm.value.login+
-      "<br/>Password : "+this.signinForm.value.password,
+      message: "Login : " +this.login+
+      "<br/>Password : "+this.password,
       buttons: ['OK']
     });
 
     await alert.present();
   }
-  
+
   ngOnInit() {
   }
  
