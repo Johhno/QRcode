@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Platform , AlertController } from '@ionic/angular';
+import { Platform , AlertController,ToastController } from '@ionic/angular';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { Router } from '@angular/router';
 
@@ -20,6 +20,7 @@ export class SigninPage implements OnInit {
     public formBuilder: FormBuilder,
     public dialog: Dialogs,
     public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
     public platform: Platform,
     private router: Router
   ) {
@@ -68,14 +69,14 @@ export class SigninPage implements OnInit {
   }
   
   async signinAlert() {
-    const alert = await this.alertCtrl.create({
+    const toast = await this.toastCtrl.create({
       header: 'Connexion',
       message: "Login : " +this.login+
       "<br/>Password : "+this.password,
       buttons: ['OK']
     });
 
-    await alert.present();
+    await toast.present();
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Platform, AlertController } from '@ionic/angular';
+import { Platform, AlertController, ToastController } from '@ionic/angular';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Router } from '@angular/router';
@@ -41,6 +41,7 @@ export class SaisiePage {
     private router: Router,
     private storage: Storage,
     public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
     public formBuilder: FormBuilder,
     public qr: QRScanner,
     public dialog: Dialogs,
@@ -83,12 +84,12 @@ export class SaisiePage {
    * @param record The record to show details of.
    */
   async showDetails(record: EntityRecord): Promise<void> {
-    const yo = await this.alertCtrl.create({
+    const toast = await this.toastCtrl.create({
       message: 'Le capteur est ' + record.numCapteur + ' et  son emplacement est ' + record.numEmplacement,
       buttons: ['OK']
     });
 
-    await yo.present();
+    await toast.present();
   }
 
   /**
@@ -225,21 +226,14 @@ export class SaisiePage {
    * @returns an alert informing the user that data have been saved successfully.
    */
   async presentSuccessfullySavedData(): Promise<void> {
-    const alert = await this.alertCtrl.create({
+    const toast = await this.toastCtrl.create({
       
       header: "Succès de l'enregistrement",
-      message: 'Le QR Code '+ this.num_capteur + 'est correctement lié à l\'emplacement' + this.num_emplacement,
-      buttons: [
-        {
-            text: 'OK',
-            handler: recordList => {
-                
-            }
-        }
-      ]
+      message: 'Le QR Code '+ this.num_capteur + ' est correctement lié à l\'emplacement ' + this.num_emplacement,
+      buttons: ['OK']
     });
 
-    await alert.present();
+    await toast.present();
   }
 
   /**
