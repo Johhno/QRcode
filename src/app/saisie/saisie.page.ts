@@ -57,6 +57,7 @@ export class SaisiePage {
     this.initRecordList();
   }
 
+
   private async initRecordList(): Promise<void> {
     this.recordList = [];
     this.recordList = await this.getEntityLines();
@@ -85,7 +86,7 @@ export class SaisiePage {
    */
   async showDetails(record: EntityRecord): Promise<void> {
     const toast = await this.toastCtrl.create({
-      message: 'Le capteur est ' + record.numCapteur + ' et  son emplacement est ' + record.numEmplacement,
+      message: 'Le capteur est ' + record.numCapteur + ' et  son emplacement est ' + record.numEmplacement ,
       buttons: ['OK']
     });
 
@@ -194,8 +195,6 @@ export class SaisiePage {
     this.router.navigate(["/saisie"]);
   }
 
-
-
   /**
    * Set one record.
    *
@@ -216,7 +215,7 @@ export class SaisiePage {
    *
    * @param record Delete one record.
    */
-  private  deleteEntityLine(index) {
+  private deleteEntityLine(index) {
     this.recordList.splice(index,1)
  // TODO : utliser un service pour le storage
     this.storage.set('recordList',this.recordList)

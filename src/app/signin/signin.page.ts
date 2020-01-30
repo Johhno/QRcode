@@ -4,6 +4,11 @@ import { Platform , AlertController,ToastController } from '@ionic/angular';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { Router } from '@angular/router';
 
+interface UserRecord {
+  pseudo: string;
+  mdp: string;
+}
+
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.page.html',
@@ -15,10 +20,11 @@ export class SigninPage implements OnInit {
   password : string;
   signinForm: FormGroup;
   messagesDeValidation: any;
+  userList: UserRecord[];
 
   constructor(
     public formBuilder: FormBuilder,
-    public dialog: Dialogs,
+    public dialog: Dialogs, 
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public platform: Platform,
@@ -28,6 +34,10 @@ export class SigninPage implements OnInit {
     this.initValidationMessages();
   }
 
+  private async initUserList(): Promise<void> {
+    this.userList = [];
+  }
+  
    private initForm(): void {
     this.signinForm = this.formBuilder.group({
       login: ['', this.loginValidators()], 
@@ -70,9 +80,7 @@ export class SigninPage implements OnInit {
   
   async signinAlert() {
     const toast = await this.toastCtrl.create({
-      header: 'Connexion',
-      message: "Login : " +this.login+
-      "<br/>Password : "+this.password,
+      header: 'Bienvenue ' +this.login,
       buttons: ['OK']
     });
 
