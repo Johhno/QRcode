@@ -58,7 +58,7 @@ export class SigninPage implements OnInit {
       Validators.required
     ]);
   }
-
+//
   /**
    * Initialize every validation messages of the form.
    */
