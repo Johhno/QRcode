@@ -3,11 +3,8 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Platform , AlertController,ToastController } from '@ionic/angular';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage';
 
-interface UserRecord {
-  pseudo: string;
-  mdp: string;
-}
 
 @Component({
   selector: 'app-signin',
@@ -20,7 +17,7 @@ export class SigninPage implements OnInit {
   password : string;
   signinForm: FormGroup;
   messagesDeValidation: any;
-  userList: UserRecord[];
+  userList: [];
 
   constructor(
     public formBuilder: FormBuilder,
@@ -28,14 +25,19 @@ export class SigninPage implements OnInit {
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public platform: Platform,
+    private storage: Storage,
     private router: Router
   ) {
     this.initForm();
     this.initValidationMessages();
+    this.initUserList();
   }
 
   private async initUserList(): Promise<void> {
+    console.log("dans ini user list")
     this.userList = [];
+    this.userList.push({login:'toto',password:'tata'})
+      console.log(this.userList)
   }
   
    private initForm(): void {
@@ -75,10 +77,20 @@ export class SigninPage implements OnInit {
     console.log('Login    : ', this.signinForm.value.login);
     console.log('Password : ', this.signinForm.value.password);
 
-    if(this.signinForm.value.login == 'john' && this.signinForm.value.password == '123' ){
+    let login = this.signinForm.value.login;
+    let password = this.signinForm.value.password
 
+    if(login == 'john' && password == '123' ){
         this.signinAlert();
 
+        //met le user dans le tableau
+        this.userList.push({login:login, password:password})
+        //stocker dans le local storage userList
+     /*   this.saveUserList(userList).then(
+            (data) => {this.router.navigate(["/saisie"]);},
+            (error) => console.log(error)
+        )*/
+        this.saveUserList(this.userList)
         this.router.navigate(["/saisie"]);
 
     } else {
@@ -102,6 +114,11 @@ export class SigninPage implements OnInit {
         });
 
         await toast.present();
+    }
+
+    private async saveUserList(userList: UserList): Promise<void> {
+    console.log('ecrit user dnas storage')
+        await this.storage.set('userList', userList);
     }
 
   ngOnInit() {
