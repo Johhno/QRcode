@@ -74,18 +74,35 @@ export class SigninPage implements OnInit {
   signin(values){
     console.log('Login    : ', this.signinForm.value.login);
     console.log('Password : ', this.signinForm.value.password);
-    this.signinAlert();
-    this.router.navigate(["/saisie"]);
+
+    if(this.signinForm.value.login == 'john' && this.signinForm.value.password == '123' ){
+
+        this.signinAlert();
+
+        this.router.navigate(["/saisie"]);
+
+    } else {
+        this.signinError();
+    }
   }
   
   async signinAlert() {
-    const toast = await this.toastCtrl.create({
-      header: 'Bienvenue ' +this.login,
-      buttons: ['OK']
-    });
+        const toast = await this.toastCtrl.create({
+            header: 'Bienvenue ' +this.login,
+            buttons: ['OK']
+        });
 
-    await toast.present();
-  }
+        await toast.present();
+    }
+
+    async signinError() {
+        const toast = await this.toastCtrl.create({
+            header: 'Error login',
+            buttons: ['Réessayer']
+        });
+
+        await toast.present();
+    }
 
   ngOnInit() {
   }
