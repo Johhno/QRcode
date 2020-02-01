@@ -130,6 +130,7 @@ export class SigninPage implements OnInit {
     private async saveUserList(userList: UserList): Promise<void> {
     console.log('ecrit user dnas storage')
         await this.storage.set('userList', userList);
+    //
     }
 
   ngOnInit() {
