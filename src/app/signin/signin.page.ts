@@ -35,9 +35,11 @@ export class SigninPage implements OnInit {
 
   private async initUserList(): Promise<void> {
     console.log("dans ini user list")
-    this.userList = [];
-    this.userList.push({login:'toto',password:'tata'})
-      console.log(this.userList)
+    //this.userList = [];
+    //monter en mémoire les data du localStorage
+    let user_list =  this.getUserList()
+
+    console.log(this.userList)
   }
   
    private initForm(): void {
@@ -115,6 +117,15 @@ export class SigninPage implements OnInit {
 
         await toast.present();
     }
+
+    private async getUserList(): Promise<void> {
+      // si userList dans le storage n'exist pas => return []
+        console.log('lit user dans storage')
+         let user_list = await this.storage.get('userList');
+
+         return user_list || []
+    }
+
 
     private async saveUserList(userList: UserList): Promise<void> {
     console.log('ecrit user dnas storage')
