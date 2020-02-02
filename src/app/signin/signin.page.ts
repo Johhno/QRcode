@@ -15,6 +15,7 @@ import { Storage } from '@ionic/storage';
 export class SigninPage implements OnInit {
   login : string;
   password : string;
+  authenticated:any;
   signinForm: FormGroup;
   messagesDeValidation: any;
   userList: [];
@@ -31,15 +32,24 @@ export class SigninPage implements OnInit {
     this.initForm();
     this.initValidationMessages();
     this.initUserList();
+    // vérifie sir le user est authentifié
+      this.getAuthentificationStatus().then(
+          (data) => {
+              console.log('data localstorage is ',data);
+              if(data == 1){
+                  this.router.navigate(["/saisie"]);
+              }
+          }
+      );
   }
 
   private async initUserList(): Promise<void> {
-    console.log("dans ini user list")
-    //this.userList = [];
-    //monter en mémoire les data du localStorage
-    let user_list =  this.getUserList()
+    console.log("dans ini user list");
+    this.userList = [];
 
-    console.log(this.userList)
+    // on crée le user à la mano on met dans le storage
+    //this.userList.push({login:'john',password:'123'});
+    //this.saveUserList(this.userList);
   }
   
    private initForm(): void {
@@ -92,7 +102,11 @@ export class SigninPage implements OnInit {
             (data) => {this.router.navigate(["/saisie"]);},
             (error) => console.log(error)
         )*/
-        this.saveUserList(this.userList)
+        this.saveUserList(this.userList);
+
+        //set authenticated to 1 in local storage
+
+        this.setAuthenticated(1);
         this.router.navigate(["/saisie"]);
 
     } else {
@@ -127,10 +141,16 @@ export class SigninPage implements OnInit {
     }
 
 
-    private async saveUserList(userList: UserList): Promise<void> {
-    console.log('ecrit user dnas storage')
+    private async saveUserList(userList: any): Promise<void> {
         await this.storage.set('userList', userList);
-    //
+    }
+
+    private async setAuthenticated(authStatus:any){
+        await this.storage.set('authenticated', 1);
+    }
+
+    private getAuthentificationStatus(){
+        return this.storage.get('authenticated');//promise
     }
 
   ngOnInit() {
