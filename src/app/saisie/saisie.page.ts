@@ -10,7 +10,7 @@ import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { HttpClient } from '@angular/common/http';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 
-interface EntityRecord {
+interface EntityList {
   numCapteur: string;
   numEmplacement: string;
   //etat: string;
@@ -35,7 +35,7 @@ export class SaisiePage {
   num_capteur: string;
   num_emplacement: string;
   etat: string;
-  recordList: EntityRecord[];
+  recordList: EntityList[];
   array_emplacements = new Array('900A00','900A01','900A02','900A03','900A04','900A05','900A06','900A07','900A08','900A09','900A10','900A11','900A12','900A13','900A14',
   '900A15','900A16','900A17','900A18','900A19','900A20','900A21','900A22','900A23','900A24','900A25','900A26','900A27','900A28','900A29','900A30','900A31','900A32',
   '900A33','900A34','900A35','900A36','900A37','900A38','900A39','900A40','900A41','900A42','900A43','900A44','900A45');
@@ -82,7 +82,7 @@ export class SaisiePage {
    *
    * @param record The recordS to get.
    */
-  private async getEntityLines(): Promise<EntityRecord[]> {
+  private async getEntityLines(): Promise<EntityList[]> {
     const recordListFromStorage = await this.storage.get('recordList') ;
     return recordListFromStorage ? recordListFromStorage : [] ;
   }
@@ -96,7 +96,7 @@ export class SaisiePage {
    *
    * @param record The record to show details of.
    */
-  async showDetails(record: EntityRecord): Promise<void> {
+  async showDetails(record: EntityList): Promise<void> {
     const toast = await this.toastCtrl.create({
       message: 'Le capteur est ' + record.numCapteur + ' et  son emplacement est ' + record.numEmplacement ,
       buttons: ['OK']
@@ -167,7 +167,7 @@ export class SaisiePage {
       return;
     }
 
-    const newEntityRecord: EntityRecord = {
+    const newEntityRecord: EntityList = {
       numCapteur: this.num_capteur,
       numEmplacement: this.num_emplacement,
       //etat:this.etat = "1"
@@ -192,7 +192,7 @@ export class SaisiePage {
    *recordList
    * @param record The record to save.
    */
-  private async saveEntityLine(recordList: EntityRecord[]): Promise<void> {
+  private async saveEntityLine(recordList: EntityList[]): Promise<void> {
     console.log('entityRecord', recordList)
     await this.storage.set('recordList', recordList);
   }
