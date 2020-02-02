@@ -56,7 +56,8 @@ export class SaisiePage {
      //check if user is authenticated
       this.getAuthentificationStatus().then(
           (data) => {
-            if(data == 0){
+            console.log('data',data)
+            if(data == 0 || data == null){
                   this.router.navigate(["/signin"]);
               }
           }

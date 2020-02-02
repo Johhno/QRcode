@@ -48,8 +48,8 @@ export class SigninPage implements OnInit {
     this.userList = [];
 
     // on crée le user à la mano on met dans le storage
-    this.userList.push({login:'john',password:'123'});
-    this.saveUserList(this.userList);
+    //this.userList.push({login:'john',password:'123'});
+    //this.saveUserList(this.userList);
   }
   
    private initForm(): void {
