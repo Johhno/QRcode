@@ -55,14 +55,13 @@ export class SaisiePage {
   ) {
      //check if user is authenticated
       this.getAuthentificationStatus().then(
-          (data) => {
-            console.log('data',data)
-            if(data == 0 || data == null){
-                  this.router.navigate(["/signin"]);
-              }
+        (data) => {
+          console.log('data',data)
+          if(data == 0 || data == null){
+                this.router.navigate(["/signin"]);
           }
+        }
       )
-
 
     this.initForm();
     this.initFormUpdate();
@@ -70,7 +69,6 @@ export class SaisiePage {
     this.initArrayEmplacements();
     this.initRecordList();
   }
-
 
   private async initRecordList(): Promise<void> {
     this.recordList = [];
@@ -213,13 +211,13 @@ export class SaisiePage {
    * @param record Set one record.
    */
   private updateEntityLine(index,capteur : any, emplacement : any) {
-          //chercher par index
-          this.recordList[index].numCapteur = capteur;
-          this.recordList[index].numEmplacement = emplacement;
+    //chercher par index
+    this.recordList[index].numCapteur = capteur;
+    this.recordList[index].numEmplacement = emplacement;
 
-          // TODO : utliser un service pour le storage
+    // TODO : utliser un service pour le storage
 
-          this.storage.set('recordList',this.recordList)
+    this.storage.set('recordList',this.recordList)
   }
 
   /**
@@ -229,7 +227,7 @@ export class SaisiePage {
    */
   private deleteEntityLine(index) {
     this.recordList.splice(index,1)
- // TODO : utliser un service pour le storage
+    // TODO : utliser un service pour le storage
     this.storage.set('recordList',this.recordList)
   }
 
