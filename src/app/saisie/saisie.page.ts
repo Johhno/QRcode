@@ -23,8 +23,11 @@ type BodyVisibilityValues = '1' | '0';
   templateUrl: './saisie.page.html',
   styleUrls: ['./saisie.page.scss'],
 })
+
+
 export class SaisiePage {
   qrScan: any;
+  authenticated:any;
   saisieForm: FormGroup;
   updateForm: FormGroup;
   messagesDeValidation: any;
@@ -50,6 +53,17 @@ export class SaisiePage {
     private http: HttpClient,
     private sqlite: SQLite
   ) {
+     //check if user is authenticated
+      this.getAuthentificationStatus().then(
+          (data) => {
+            console.log('data',data)
+            if(data == 0 || data == null){
+                  this.router.navigate(["/signin"]);
+              }
+          }
+      )
+
+
     this.initForm();
     this.initFormUpdate();
     this.initValidationMessages();
@@ -70,8 +84,6 @@ export class SaisiePage {
    */
   private async getEntityLines(): Promise<EntityRecord[]> {
     const recordListFromStorage = await this.storage.get('recordList') ;
-    console.log('recordList from storage', recordListFromStorage);
-
     return recordListFromStorage ? recordListFromStorage : [] ;
   }
 
@@ -297,4 +309,7 @@ export class SaisiePage {
     };
   }
 
+  private getAuthentificationStatus(){
+    return this.storage.get('authenticated');//promise
+  }
 }
