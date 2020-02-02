@@ -15,6 +15,7 @@ import { Storage } from '@ionic/storage';
 export class SigninPage implements OnInit {
   login : string;
   password : string;
+  authenticated:any;
   signinForm: FormGroup;
   messagesDeValidation: any;
   userList: [];
@@ -31,6 +32,15 @@ export class SigninPage implements OnInit {
     this.initForm();
     this.initValidationMessages();
     this.initUserList();
+    // vérifie sir le user est authentifié
+      this.getAuthentificationStatus().then(
+          (data) => {
+              console.log('data localstorage is ',data);
+              if(data == 1){
+                  this.router.navigate(["/saisie"]);
+              }
+          }
+      );
   }
 
   private async initUserList(): Promise<void> {
@@ -92,7 +102,11 @@ export class SigninPage implements OnInit {
             (data) => {this.router.navigate(["/saisie"]);},
             (error) => console.log(error)
         )*/
-        this.saveUserList(this.userList)
+        this.saveUserList(this.userList);
+
+        //set authenticated to 1 in local storage
+
+        this.setAuthenticated(1);
         this.router.navigate(["/saisie"]);
 
     } else {
@@ -129,6 +143,14 @@ export class SigninPage implements OnInit {
 
     private async saveUserList(userList: any): Promise<void> {
         await this.storage.set('userList', userList);
+    }
+
+    private async setAuthenticated(authStatus:any){
+        await this.storage.set('authenticated', 1);
+    }
+
+    private getAuthentificationStatus(){
+        return this.storage.get('authenticated');//promise
     }
 
   ngOnInit() {
